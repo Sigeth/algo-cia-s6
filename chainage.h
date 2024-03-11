@@ -1,0 +1,4 @@
+#ifndef ALGO_CIA_S6_CHAINAGE_H
+#define ALGO_CIA_S6_CHAINAGE_H
+
+#endif
