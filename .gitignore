@@ -55,3 +55,6 @@ dkms.conf
 .idea/
 cmake-build-debug/
 CMakeLists.txt
+
+# main should not be in GitHub
+main
