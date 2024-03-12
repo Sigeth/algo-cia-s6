@@ -22,10 +22,9 @@ typedef struct rules {
 
 
 
-// Fonction pour vérifier si une règle a la conclusion donnée
 bool conclusion_est(RULES *regle, char *but);
 
-// Fonction récursive pour le chaînage arrière
+
 bool chainage_arriere(char *But, RULES *Base_de_regles, FAITS *Base_de_faits);
 
 
