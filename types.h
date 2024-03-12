@@ -28,7 +28,7 @@ typedef struct faits{
 //Les fonctions suivantes retourne 1 ou 0 pour être comprise par un "if" si nécessaire (1 True, 0 False)
 
                 // CONDITIONS //
-int init_Conditions(CONDITIONS ** C, int conditions_size);
+int init_Conditions(CONDITIONS ** C, int conditions_size);// Retourne 1 ou 0
 
 int isConditionEmpty(CONDITIONS * C);
 
