@@ -25,7 +25,7 @@ typedef struct rules {
 bool conclusion_est(RULES *regle, char *but);
 
 
-bool chainage_arriere(char *But, RULES *Base_de_regles, FAITS *Base_de_faits);
+bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits);
 
 
 #endif
