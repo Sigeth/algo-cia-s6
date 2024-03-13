@@ -1,19 +1,17 @@
 #ifndef ALGO_CIA_S6_CHAINAGE_H
 #define ALGO_CIA_S6_CHAINAGE_H
 
-// Structure pour les conditions VA AVEC RULES
-typedef struct conditions {
-    char *conditions;
-    struct conditions *suiv;
-} CONDITIONS;
 
-// Structure pour les faits INDEPENDANTS DE RULES
 typedef struct faits {
-    char *faits;
+    char *fait;
     struct faits *suiv;
 } FAITS;
 
-// Structure pour les regles QUI INTEGRE CONDITIONS
+typedef struct conditions {
+    char *condition;
+    struct conditions *suiv;
+} CONDITIONS;
+
 typedef struct rules {
     char *conclusion;
     CONDITIONS *ptete_conditions;
@@ -24,10 +22,21 @@ typedef struct rules {
 
 
 
+
+// Prototypes des fonctions CHAINAGE AVANT
+void chainage_avant(RULES *base_de_regles, FAITS *base_de_faits);
+bool regle_applicable(RULES *regle, FAITS *base_de_faits);
+void ajouter_fait(FAITS *base_de_faits, char *fait);
+
+
+
+
+//Prototypes des fonctions CHAINAGE ARRIERE
+
 bool conclusion_est(RULES *regle, char *but);
+bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits);
 
 
-bool chainage_arriere(char *But, RULES *Base_de_regles, FAITS *Base_de_faits);
 
 
 #endif
