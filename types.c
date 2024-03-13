@@ -4,13 +4,14 @@
                // init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
    *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
-   if (*C == NULL) {
-       printf("Erreur d'allocation de la condition\n");
+   if(*C == NULL){
+       printf("Erreur d'allocation du noeud de conditions\n");
        return 0;
-   } else {
-       (*C)->conditions = malloc(conditions_size * sizeof(char *));
+   }else {
+       (*C)->conditions = malloc((conditions_size + 1) * sizeof(char));
        if ((*C)->conditions == NULL) {
            printf("Erreur d'allocation des conditions\n");
+           free((*C)->conditions);
            free(*C);
            return 0;
        }
@@ -20,47 +21,60 @@ int init_Conditions(CONDITIONS ** C, int conditions_size){
 }
 
 int isConditionEmpty(CONDITIONS * C){
-    return (C == NULL || C->conditions == NULL);
+    return (C == NULL || !strlen(C->conditions));
+}
+
+int isValinCondition(CONDITIONS **TC, char * val){
+    if(*TC==NULL){
+        printf("Pas de valeur");
+        return 0;
+    }
+    if(strcmp((*TC)->conditions, val)){
+        return 1;
+    }
+    isValinCondition(&(*TC)->suiv,val);
 }
 
 int ins_Condition(CONDITIONS **TC, CONDITIONS *C){
-    if(C==NULL) {
+    if (C == NULL){
         printf("rien a ajouter\n");
-        return 0;
+        return 0;}
+    if (*TC == NULL || strcmp((*TC)->conditions, C->conditions) >= 0) {
+        C->suiv = *TC;
+        *TC = C;
+        return 1;
     }
-    C->suiv=*TC;
-    *TC=C;
-    return 1;
+    return ins_Condition(&((*TC)->suiv), C);
 }
 
 int free_ListeConditions(CONDITIONS * TC) {
     if (TC == NULL) {
-        printf("La liste de conditions est vide\n");
+        printf("Rien a libéré\n");
         return 0;
     }
     free_ListeConditions(TC->suiv);
+    free(TC->conditions);
     free(TC);
     return 1;
 }
 
 void affiche_Condition(CONDITIONS * C) {
     if (C == NULL) {
-        printf("Condition vide\n");
+        printf("Les conditions sont vides\n");
         return;
     }
-    for (int i = 0; C->conditions[i] != NULL; i++) {
-        printf("%s ", C->conditions[i]);
-    }
-    printf("\n");
+    printf("Condition(s): %s\n", C->conditions);
 }
 
 int affiche_ListeConditions(CONDITIONS * TC) {
     int count = 0;
-    if (TC != NULL) {
-        affiche_ListeConditions(TC);
-        count++;
-        count += affiche_ListeConditions(TC->suiv);
+    if (TC == NULL) {
+        printf("La liste de nodes de conditions est vide");
+        return 0;
     }
+    affiche_Condition(TC);
+    count++;
+    count += affiche_ListeConditions(TC->suiv);
     return count;
 }
 
@@ -69,15 +83,14 @@ int affiche_ListeConditions(CONDITIONS * TC) {
 int init_Rule(RULES ** R, int conclusion_size){
     *R = (RULES *)malloc(sizeof(RULES));
     if(*R == NULL){
-        printf("Erreur d'allocation de la règle\n");
-        free(R);
+        printf("Erreur d'allocation de la node de règle\n");
         return 0;
     }else {
         (*R)->conclusion = malloc((conclusion_size + 1) * sizeof(char));
         if ((*R)->conclusion == NULL) {
             printf("Erreur d'allocation de la conclusion\n");
             free((*R)->conclusion);
-            free(R);
+            free(*R);
             return 0;
         }
         (*R)->suiv = NULL;
@@ -87,6 +100,17 @@ int init_Rule(RULES ** R, int conclusion_size){
 
 int isRuleEmpty(RULES * R) {
     return (R == NULL || !strlen(R->conclusion));
+}
+
+int isValinRules(RULES **TR, char * val){
+    if(*TR==NULL){
+        printf("Pas de valeur");
+        return 0;
+    }
+    if(strcmp((*TR)->conclusion, val)){
+        return 1;
+    }
+    isValinRules(&(*TR)->suiv,val);
 }
 
 int ins_Rule(RULES ** TR,RULES * R){
@@ -99,6 +123,30 @@ int ins_Rule(RULES ** TR,RULES * R){
         return 1;
     }
     return ins_Rule(&((*TR)->suiv), R);
+}
+
+int ins_ConditionToRule(RULES *R,CONDITIONS *teteC){
+    if (R == NULL) {
+        printf("Rien à ajouter\n");
+        return 0;
+    }
+    R->ptete_conditions = teteC;
+    return 1;
+}
+
+int ins_ConditionsToRules(RULES ** TR ,RULES *R,CONDITIONS *teteC){
+    if (R == NULL) {
+        printf("Rien à ajouter\n");
+        return 0;
+    }
+    if (*TR == R) {
+        return ins_ConditionToRule((*TR),teteC);
+    }
+    if ((*TR)->suiv == NULL) {
+        printf("La règle spécifiée n'a pas été trouvée dans la liste de règles\n");
+        return 0;
+    }
+    return ins_ConditionsToRules(&((*TR)->suiv), R, teteC);
 }
 
 int free_RuleList(RULES *TR){
@@ -123,29 +171,30 @@ void affiche_Rule(RULES * R){
     affiche_ListeConditions(R->ptete_conditions);
 }
 
-int affiche_RuleList(RULES * TR){
+int affiche_ListRules(RULES * TR){
     int count = 0;
     if (TR == NULL) {
-        printf("RuleList vide");
+        printf("La liste de node de règle est vide");
         return 0;
     }
         affiche_Rule(TR);
         count++;
-        count += affiche_RuleList(TR->suiv);
+        count += affiche_ListRules(TR->suiv);
     return count;
 }
 
                         // FAITS //
 
 int init_Fait(FAITS ** F, int faits_size){
-    *F = (FAITS *)malloc(sizeof(FAITS ));
-    if (*F == NULL) {
-        printf("Erreur d'allocation de la condition\n");
+    *F = (FAITS *)malloc(sizeof(FAITS));
+    if(*F == NULL){
+        printf("Erreur d'allocation de la node de faits\n");;
         return 0;
-    } else {
-        (*F)->faits = malloc(faits_size * sizeof(char *));
+    }else {
+        (*F)->faits = malloc((faits_size + 1) * sizeof(char));
         if ((*F)->faits == NULL) {
-            printf("Erreur d'allocation des conditions\n");
+            printf("Erreur d'allocation des faits\n");
+            free((*F)->faits);
             free(*F);
             return 0;
         }
@@ -154,50 +203,59 @@ int init_Fait(FAITS ** F, int faits_size){
     }
 }
 
-int isFaitEmpty(FAITS * F){
-    return (F == NULL || F->faits == NULL);
+int isFaitEmpty(FAITS * F) {
+    return (F == NULL || !strlen(F->faits));
+}
+int isValinFaits(FAITS **TF, char * val){
+    if(*TF==NULL){
+        printf("Pas de valeur");
+        return 0;
+    }
+    if(strcmp((*TF)->faits, val)){
+        return 1;
+    }
+    isValinFaits(&(*TF)->suiv,val);
 }
 
 int ins_Fait(FAITS ** TF,FAITS * F){
-    if(F==NULL) {
+    if (F == NULL){
         printf("rien a ajouter\n");
-        return 0;
+        return 0;}
+    if (*TF == NULL || strcmp((*TF)->faits, F->faits) >= 0) {
+        F->suiv = *TF;
+        *TF = F;
+        return 1;
     }
-    F->suiv=*TF;
-    *TF=F;
-    return 1;
+    return ins_Fait(&((*TF)->suiv), F);
 }
 
-int free_FaitList(FAITS *TF){
+int free_ListeFaits(FAITS *TF){
     if (TF == NULL) {
-        printf("La liste de conditions est vide\n");
-        return 0; // Rien à libérer, considéré comme un succès
+        printf("Rien a libéré\n");
+        return 0;
     }
-    for (int i = 0; TF->faits[i] != NULL; i++) {
-        free(TF->faits[i]);
-    }
-    free_ListeConditions(TF->suiv);
+    free_ListeFaits(TF->suiv);
+    free(TF->faits);
     free(TF);
     return 1;
-}// Retourne 1 ou 0
+}
 
 void affiche_Fait(FAITS * F){
     if (F == NULL) {
-        printf("Fait vide\n");
+        printf("Le fait est vide\n");
         return;
     }
-    for (int i = 0; F->faits[i] != NULL; i++) {
-        printf("%s ", F->faits[i]);
-    }
-    printf("\n");
+    printf("Fait(s): %s\n", F->faits);
 }
 
-int affiche_FaitList(FAITS * TF){
+int affiche_ListFaits(FAITS *TF){
     int count = 0;
-    if (TF != NULL) {
-        affiche_ListeConditions(TF);
-        count++;
-        count += affiche_ListeConditions(TF->suiv);
+    if (TF == NULL) {
+        printf("La liste de node de règle est vide");
+        return 0;
     }
+    affiche_Fait(TF);
+    count++;
+    count += affiche_ListFaits(TF->suiv);
     return count;
 }
