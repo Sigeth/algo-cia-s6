@@ -1,7 +1,7 @@
 #include <stdio.h>
+#include "sauvegarde.h"
 
 int main() {
-
-    printf("Hello, World!\n");
+    readRules();
     return 0;
 }
