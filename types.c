@@ -194,17 +194,17 @@ int affiche_ListRules(RULES * TR){
 int init_Fait(FAITS ** F, int faits_size){
     *F = (FAITS *)malloc(sizeof(FAITS));
     if(*F == NULL){
-        printf("Erreur d'allocation de la node de faits\n");;
+        printf("Erreur d'allocation du noeud de faits\n");
         return 0;
     }else {
         (*F)->faits = malloc((faits_size + 1) * sizeof(char));
         if ((*F)->faits == NULL) {
-            printf("Erreur d'allocation des faits\n");
+            printf("Erreur d'allocation des fait\n");
             free((*F)->faits);
             free(*F);
             return 0;
         }
-        strcpy((*F)->faits, "Fait_initial");
+        strcpy((*F)->faits, "Fait initial");
         (*F)->suiv = NULL;
         return 1;
     }
@@ -236,16 +236,14 @@ int ins_Fait(FAITS ** TF,FAITS * F){
     return ins_Fait(&((*TF)->suiv), F);
 }
 
-int free_ListeFaits(FAITS *TF){
+int free_ListeFaits(FAITS *TF) {
     if (TF == NULL) {
         return 0;
     }
     if (TF->suiv != NULL) {
         free_ListeFaits(TF->suiv);
     }
-    if(TF->faits != NULL) {
-        free(TF->faits);
-    }
+    free(TF->faits);
     free(TF);
     return 1;
 }
