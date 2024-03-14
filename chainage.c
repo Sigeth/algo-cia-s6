@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -139,7 +140,6 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     
     return false;
 }
-
 
 
 

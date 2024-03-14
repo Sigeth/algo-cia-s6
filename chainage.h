@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+
 typedef struct faits {
     char *fait;
     struct faits *suiv;
@@ -36,7 +37,6 @@ void ajouter_fait(FAITS *base_de_faits, char *fait);
 
 bool conclusion_est(RULES *regle, char *but);
 bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits);
-
 
 
 
