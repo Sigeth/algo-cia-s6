@@ -15,6 +15,7 @@ int init_Conditions(CONDITIONS ** C, int conditions_size){
            free(*C);
            return 0;
        }
+       strcpy((*C)->conditions, "Condition initial");
        (*C)->suiv = NULL;
        return 1;
    }
@@ -49,10 +50,11 @@ int ins_Condition(CONDITIONS **TC, CONDITIONS *C){
 
 int free_ListeConditions(CONDITIONS * TC) {
     if (TC == NULL) {
-        printf("Rien a libéré\n");
         return 0;
     }
-    free_ListeConditions(TC->suiv);
+    if (TC->suiv != NULL) {
+        free_ListeConditions(TC->suiv);
+    }
     free(TC->conditions);
     free(TC);
     return 1;
@@ -60,18 +62,17 @@ int free_ListeConditions(CONDITIONS * TC) {
 
 void affiche_Condition(CONDITIONS * C) {
     if (C == NULL) {
-        printf("Les conditions sont vides\n");
         return;
     }
-    printf("Condition(s): %s\n", C->conditions);
+    printf("%s\n", C->conditions);
 }
 
 int affiche_ListeConditions(CONDITIONS * TC) {
     int count = 0;
     if (TC == NULL) {
-        printf("La liste de nodes de conditions est vide");
         return 0;
     }
+    printf("Conditions :\n");
     affiche_Condition(TC);
     count++;
     count += affiche_ListeConditions(TC->suiv);
@@ -93,6 +94,8 @@ int init_Rule(RULES ** R, int conclusion_size){
             free(*R);
             return 0;
         }
+        strcpy((*R)->conclusion, "Conclusion initial");
+        (*R)->ptete_conditions=NULL;
         (*R)->suiv = NULL;
         return 1;
     }
@@ -151,32 +154,35 @@ int ins_ConditionsToRules(RULES ** TR ,RULES *R,CONDITIONS *teteC){
 
 int free_RuleList(RULES *TR){
     if (TR == NULL) {
-        printf("Rien a libéré\n");
         return 0;
     }
-    free_RuleList(TR->suiv);
-    free(TR->conclusion);
-    free_ListeConditions(TR->ptete_conditions);
+    if (TR->suiv != NULL) {
+        free_RuleList(TR->suiv);
+    }
+    if (TR->conclusion != NULL) {
+        free(TR->conclusion);
+    }
+    if (TR->ptete_conditions != NULL) {
+        free_ListeConditions(TR->ptete_conditions);
+    }
     free(TR);
     return 1;
 }
 
 void affiche_Rule(RULES * R){
     if (R == NULL) {
-        printf("La règle est vide\n");
         return;
     }
     printf("Conclusion: %s\n", R->conclusion);
-    printf("Conditions:\n");
     affiche_ListeConditions(R->ptete_conditions);
 }
 
 int affiche_ListRules(RULES * TR){
     int count = 0;
     if (TR == NULL) {
-        printf("La liste de node de règle est vide");
         return 0;
     }
+        printf("Regles :\n");
         affiche_Rule(TR);
         count++;
         count += affiche_ListRules(TR->suiv);
@@ -198,6 +204,7 @@ int init_Fait(FAITS ** F, int faits_size){
             free(*F);
             return 0;
         }
+        strcpy((*F)->faits, "Fait_initial");
         (*F)->suiv = NULL;
         return 1;
     }
@@ -231,31 +238,35 @@ int ins_Fait(FAITS ** TF,FAITS * F){
 
 int free_ListeFaits(FAITS *TF){
     if (TF == NULL) {
-        printf("Rien a libéré\n");
         return 0;
     }
-    free_ListeFaits(TF->suiv);
-    free(TF->faits);
+    if (TF->suiv != NULL) {
+        free_ListeFaits(TF->suiv);
+    }
+    if(TF->faits != NULL) {
+        free(TF->faits);
+    }
     free(TF);
     return 1;
 }
 
 void affiche_Fait(FAITS * F){
     if (F == NULL) {
-        printf("Le fait est vide\n");
         return;
+    }else{
+    printf("%s\n", F->faits);
     }
-    printf("Fait(s): %s\n", F->faits);
 }
 
 int affiche_ListFaits(FAITS *TF){
     int count = 0;
     if (TF == NULL) {
-        printf("La liste de node de règle est vide");
         return 0;
+    }else{
+        printf("Faits :\n");
+        affiche_Fait(TF);
+        count++;
+        count += affiche_ListFaits(TF->suiv);
+        return count;
     }
-    affiche_Fait(TF);
-    count++;
-    count += affiche_ListFaits(TF->suiv);
-    return count;
 }

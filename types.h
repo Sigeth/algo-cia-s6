@@ -76,5 +76,5 @@ int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
 
 void affiche_Fait(FAITS * F); //affiche fait
 
-int affiche_FaitList(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
+int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
 #endif
