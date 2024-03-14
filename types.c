@@ -32,7 +32,7 @@ int isValinCondition(CONDITIONS **TC, char * val){
     if(strcmp((*TC)->conditions, val)){
         return 1;
     }
-    isValinCondition(&(*TC)->suiv,val);
+    return isValinCondition(&(*TC)->suiv,val);
 }
 
 int ins_Condition(CONDITIONS **TC, CONDITIONS *C){
@@ -110,7 +110,7 @@ int isValinRules(RULES **TR, char * val){
     if(strcmp((*TR)->conclusion, val)){
         return 1;
     }
-    isValinRules(&(*TR)->suiv,val);
+    return isValinRules(&(*TR)->suiv,val);
 }
 
 int ins_Rule(RULES ** TR,RULES * R){
@@ -214,7 +214,7 @@ int isValinFaits(FAITS **TF, char * val){
     if(strcmp((*TF)->faits, val)){
         return 1;
     }
-    isValinFaits(&(*TF)->suiv,val);
+    return isValinFaits(&(*TF)->suiv,val);
 }
 
 int ins_Fait(FAITS ** TF,FAITS * F){
