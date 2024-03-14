@@ -65,5 +65,5 @@ int free_FaitList(FAITS *TF);// Retourne 1 ou 0
 
 void affiche_Fait(FAITS * F);
 
-int affiche_FaitList(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
+int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
 #endif
