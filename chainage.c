@@ -33,7 +33,7 @@ FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
         }
         current->suiv = new_fait;
     }
-    affiche_ListFaits(base_de_faits);
+    affiche_liste_faits(base_de_faits);
     return base_de_faits;
 }
 
@@ -44,7 +44,7 @@ FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
     CONDITIONS *condition = regle->ptete_conditions;
-    
+
     //comme je l'ai dit ça check si conditions == faits
 
     while (condition != NULL) {
@@ -69,7 +69,7 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
     FAITS *fait = base_de_faits;
     while (fait != NULL) {
         if (strcmp(fait->faits, regle->conclusion) == 0) {
-            return false; 
+            return false;
         }
         fait = fait->suiv;
     }
@@ -79,27 +79,24 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
 //fonction principale chainage avant
 
-bool chainage_avant(RULES *base_de_regles, FAITS *base_de_faits,char* but) {
+
+FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
     bool regle_appliquee = true;
     while (regle_appliquee) {
         regle_appliquee = false;
         RULES *regle = base_de_regles;
         while (regle != NULL) {
             if (regle_applicable(regle, base_de_faits)) {
-                base_de_faits =ajouter_fait(base_de_faits, regle->conclusion);
-                printf("Règle appliquée : ");
-                affiche_Rule(regle);
+
+                base_de_faits= ajouter_fait(base_de_faits, regle->conclusion);
+
                 regle_appliquee = true;
-                if(strcmp(regle->conclusion, but) == 0){
-                    return true;
-                }
             }
             regle = regle->suiv;
         }
     }
-    return false;
+    return base_de_faits;
 }
-
 
 
 
@@ -126,7 +123,7 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
             return true;
         }
     }
-    
+
     // sinon on recherche dans les règles
     RULES *regle = base_de_regles;
     while (regle != NULL) {
@@ -145,7 +142,7 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
         }
         regle = regle->suiv;
     }
-    
+
     return false;
 }
 

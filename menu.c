@@ -81,18 +81,15 @@ int menu(RULES *listRules) {
                 printf("Chainage avant\n");
                 sleep(1);
                 //chainage avant
-                printf("Que voulez vous démontrer ? : \n");
-                scanf("%s", but);
-                if (chainage_avant(listRules, listFacts, but)){
-                    printf("Le but est atteignable\n");
-                } else {
-                    printf("Le but n'est pas atteignable\n");
-                }
+                listFacts= chainage_avant(listRules, listFacts);
+                affiche_liste_faits(listFacts);
                 break;
             case 6:
                 printf("Chainage arrière\n");
                 sleep(1);
                 //chainage arrière
+                affiche_ListRules(listRules);
+                affiche_liste_faits(listFacts);
                 printf("Entrez le but à prouver: \n");
                 scanf("%s", but);
                 if(chainage_arriere(but, listRules, listFacts)) {
@@ -100,6 +97,7 @@ int menu(RULES *listRules) {
                 } else {
                     printf("Le but n'est pas atteignable\n");
                 }
+                affiche_liste_faits(listFacts);
                 break;
             case 7:
                 printf("Quitter\n");
@@ -111,6 +109,7 @@ int menu(RULES *listRules) {
         }
         printf("\n");
     } while (choice != 7);
-
+    free_ListeFaits(listFacts);
+    free_RuleList(listRules);
     return 0;
 }
