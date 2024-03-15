@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 //Conditions
 typedef struct conditions{
     char * conditions;
@@ -77,4 +78,6 @@ int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
 void affiche_Fait(FAITS * F); //affiche fait
 
 int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
+
+void check_fact(RULES* base_de_regles, FAITS* base_de_faits); //parcours les regles pour demander à l'utilisatuer si le fait est un fait de base
 #endif

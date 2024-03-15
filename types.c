@@ -268,3 +268,21 @@ int affiche_ListFaits(FAITS *TF){
         return count;
     }
 }
+
+void check_fact(RULES* base_de_regles, FAITS* base_de_faits) {
+    RULES* regle = base_de_regles;
+    while (regle != NULL) {
+        CONDITIONS* condition = regle->ptete_conditions;
+        while (condition != NULL) {
+            printf("%s fait partie de la liste des faits initiaux (Y/N)\n", condition->conditions);
+            char response;
+            scanf("%c", &response);
+            if (strcmp(&response, "Y") == 0) {
+                ajouter_fait(base_de_faits, condition->conditions);
+            }
+            condition = condition->suiv;
+        }
+        regle = regle->suiv;
+    }
+    affiche_ListFaits(base_de_faits);
+}

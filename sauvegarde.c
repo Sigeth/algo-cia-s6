@@ -1,4 +1,7 @@
 #include "sauvegarde.h"
+#include "types.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 RULES* readRules() {
     FILE* rulesFile;
