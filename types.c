@@ -1,6 +1,7 @@
 #include "types.h"
+#include "chainage.h"
 
-               // CONDITIONS //
+// CONDITIONS //
                // init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
    *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
@@ -256,33 +257,44 @@ void affiche_Fait(FAITS * F){
     }
 }
 
-int affiche_ListFaits(FAITS *TF){
-    int count = 0;
-    if (TF == NULL) {
-        return 0;
-    }else{
-        printf("Faits :\n");
-        affiche_Fait(TF);
-        count++;
-        count += affiche_ListFaits(TF->suiv);
-        return count;
+void affiche_liste_faits(FAITS *base_de_faits) {
+    while (base_de_faits != NULL) {
+        printf("%s\n", base_de_faits->faits);
+        base_de_faits = base_de_faits->suiv;
     }
 }
 
-void check_fact(RULES* base_de_regles, FAITS* base_de_faits) {
-    RULES* regle = base_de_regles;
-    while (regle != NULL) {
-        CONDITIONS* condition = regle->ptete_conditions;
-        while (condition != NULL) {
-            printf("%s fait partie de la liste des faits initiaux (Y/N)\n", condition->conditions);
-            char response;
-            scanf("%c", &response);
-            if (strcmp(&response, "Y") == 0) {
-                ajouter_fait(base_de_faits, condition->conditions);
-            }
-            condition = condition->suiv;
+FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
+    char symptom[100];
+    printf("Entrer vos symptomes (appuyer sur 'q' pour quitter):\n");
+    while (1) {
+        scanf("%s", symptom);
+        symptom[strcspn(symptom, "\n")] = 0;
+        if (strcmp(symptom, "q") == 0) {
+            break;
         }
-        regle = regle->suiv;
+        if (strlen(symptom) == 0) {
+            printf("Merci de renseigner un symptome, veuillez réessayer.\n");
+            continue;
+        }
+        RULES* regle = base_de_regles;
+        int found = 0;
+        while (regle != NULL && !found) {
+            CONDITIONS* condition = regle->ptete_conditions;
+            while (condition != NULL) {
+                if (strcmp(condition->conditions, symptom) == 0) {
+                    base_de_faits = ajouter_fait(base_de_faits, symptom);
+                    printf("Ajout %s a la base_de_faits\n", symptom);
+                    found = 1;
+                    break;
+                }
+                condition = condition->suiv;
+            }
+            regle = regle->suiv;
+        }
+        if (!found) {
+            printf("Symptome pas dans la base_de_regles\n");
+        }
     }
-    affiche_ListFaits(base_de_faits);
+    return base_de_faits;
 }

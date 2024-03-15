@@ -1,7 +1,4 @@
 #include "sauvegarde.h"
-#include "types.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 RULES* readRules() {
     FILE* rulesFile;
@@ -14,7 +11,6 @@ RULES* readRules() {
     }
 
     char* currWord = malloc(sizeof(char) * 50);
-    strcpy(currWord, "");
     int i = 0;
 
     char* rules[50];
@@ -32,10 +28,12 @@ RULES* readRules() {
 
             switch(ch) {
                 case ' ':
-                    rules[i] = malloc(sizeof(char) * strlen(currWord));
-                    strcpy(rules[i], currWord);
-                    i++;
-                    strcpy(currWord, "");
+                    if (strcmp(currWord, "") != 0) {
+                        rules[i] = malloc(sizeof(char) * strlen(currWord));
+                        strcpy(rules[i], currWord);
+                        i++;
+                        strcpy(currWord, "");
+                    }
                     break;
                 case ';':
                     conclusion = malloc(sizeof(char) * strlen(currWord));
@@ -47,16 +45,19 @@ RULES* readRules() {
                     for(int j=0; j<i; j++) {
                         CONDITIONS* currCondition = NULL;
                         init_Conditions(&currCondition, (int) strlen(rules[j]));
-                        printf("%s", rules[j]);
                         strcpy(currCondition->conditions, rules[j]);
-                        free(rules[j]);
                         ins_Condition(&currRule->ptete_conditions, currCondition);
+                        free(rules[j]);
                     }
                     ins_Rule(&listRules, currRule);
                     i=0;
                     break;
                 default:
-                    strncat(currWord, &ch, 1);
+                    if (ch == '_') {
+                        strcat(currWord, " ");
+                    } else {
+                        strncat(currWord, &ch, 1);
+                    }
                     break;
             }
         }
@@ -65,7 +66,6 @@ RULES* readRules() {
     free(currWord);
     free(conclusion);
 
-    affiche_ListRules(listRules);
     fclose(rulesFile);
     return listRules;
 }

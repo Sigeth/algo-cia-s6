@@ -17,23 +17,25 @@
 //fonction pour ajouter, si vous en avez deja une mettez la a la place je vous en prie
 
 
-void ajouter_fait(FAITS *base_de_faits, char *fait) {
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
+    printf("%s ajouté aux faits établis\n", fait);
+    FAITS *new_fait = malloc(sizeof(FAITS));
+    new_fait->faits = strdup(fait);
+    new_fait->suiv = NULL;
 
-    printf("Ajout du de la condition %s aux faits établis\n", fait);
-    // on va a la fin
-    while (base_de_faits->suiv != NULL) {
-        base_de_faits = base_de_faits->suiv;
+    if (base_de_faits == NULL) {
+        base_de_faits = new_fait;
     }
-    // on alloue
-    base_de_faits->suiv = malloc(sizeof(FAITS));
-    
-    // on copie
-    base_de_faits->suiv->faits = strdup(fait);
-
-    // et on met un petit NULL pour marquer la fin
-    base_de_faits->suiv->suiv = NULL;
+    else {
+        FAITS *current = base_de_faits;
+        while (current->suiv != NULL) {
+            current = current->suiv;
+        }
+        current->suiv = new_fait;
+    }
+    affiche_ListFaits(base_de_faits);
+    return base_de_faits;
 }
-
 
 
 //fonction pour verifier si la regle est bien entiere, genre si 
@@ -78,15 +80,15 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 //fonction principale chainage avant
 
 bool chainage_avant(RULES *base_de_regles, FAITS *base_de_faits,char* but) {
-    FAITS* base_faits_temp = base_de_faits;
     bool regle_appliquee = true;
     while (regle_appliquee) {
         regle_appliquee = false;
         RULES *regle = base_de_regles;
         while (regle != NULL) {
-            if (regle_applicable(regle, base_faits_temp)) {
-                ajouter_fait(base_faits_temp, regle->conclusion);
-
+            if (regle_applicable(regle, base_de_faits)) {
+                base_de_faits =ajouter_fait(base_de_faits, regle->conclusion);
+                printf("Règle appliquée : ");
+                affiche_Rule(regle);
                 regle_appliquee = true;
                 if(strcmp(regle->conclusion, but) == 0){
                     return true;

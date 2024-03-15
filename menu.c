@@ -60,7 +60,6 @@ int menu(RULES *listRules) {
                 listRules= readRules();
                 printf("Base de règles :\n");
                 affiche_ListRules(listRules);
-                sleep(10);
                 break;
             case 2:
                 printf("Saisie de règles\n");
@@ -71,8 +70,7 @@ int menu(RULES *listRules) {
                 printf("Saisie de faits\n");
                 sleep(1);
                 // Saisie de faits
-                check_fact(listRules,listFacts);
-                sleep(2);
+                listFacts = ask_symptoms(listRules, listFacts);
                 break;
             case 4:
                 printf("Enregistrement de la base de règles\n");
@@ -83,7 +81,7 @@ int menu(RULES *listRules) {
                 printf("Chainage avant\n");
                 sleep(1);
                 //chainage avant
-                printf("Que voulez vous démontrer ?\n");
+                printf("Que voulez vous démontrer ? : \n");
                 scanf("%s", but);
                 if (chainage_avant(listRules, listFacts, but)){
                     printf("Le but est atteignable\n");
@@ -95,7 +93,7 @@ int menu(RULES *listRules) {
                 printf("Chainage arrière\n");
                 sleep(1);
                 //chainage arrière
-                printf("Entrez le but à prouver: ");
+                printf("Entrez le but à prouver: \n");
                 scanf("%s", but);
                 if(chainage_arriere(but, listRules, listFacts)) {
                     printf("Le but est atteignable\n");

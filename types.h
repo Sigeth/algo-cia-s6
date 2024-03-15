@@ -79,5 +79,8 @@ void affiche_Fait(FAITS * F); //affiche fait
 
 int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
 
-void check_fact(RULES* base_de_regles, FAITS* base_de_faits); //parcours les regles pour demander à l'utilisatuer si le fait est un fait de base
+FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts);
+
+//Prototype de affichage_liste_faits
+void affiche_liste_faits(FAITS *base_de_faits);
 #endif

@@ -10,7 +10,7 @@
 // Prototypes des fonctions CHAINAGE AVANT
 bool chainage_avant(RULES *base_de_regles, FAITS *base_de_faits,char *but);
 bool regle_applicable(RULES *regle, FAITS *base_de_faits);
-void ajouter_fait(FAITS *base_de_faits, char *fait);
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait);
 
 
 
