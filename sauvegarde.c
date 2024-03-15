@@ -53,7 +53,11 @@ RULES* readRules() {
                     i=0;
                     break;
                 default:
-                    strncat(currWord, &ch, 1);
+                    if (ch == '_') {
+                        strcat(currWord, " ");
+                    } else {
+                        strncat(currWord, &ch, 1);
+                    }
                     break;
             }
         }
