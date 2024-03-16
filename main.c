@@ -7,6 +7,7 @@
 
 
 int main() {
-    menu();
+    RULES *listRules = NULL;
+    menu(listRules);
     return 0;
 }
