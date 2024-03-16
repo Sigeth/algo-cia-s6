@@ -1,5 +1,12 @@
 #include "sauvegarde.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include "types.h"
+
+
 RULES* readRules() {
     FILE* rulesFile;
     char ch;
@@ -53,7 +60,11 @@ RULES* readRules() {
                     i=0;
                     break;
                 default:
-                    strncat(currWord, &ch, 1);
+                    if (ch == '_') {
+                        strcat(currWord, " ");
+                    } else {
+                        strncat(currWord, &ch, 1);
+                    }
                     break;
             }
         }
