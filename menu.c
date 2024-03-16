@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "types.h"
 #include "chainage.h"
 #include "sauvegarde.h"
-
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -23,7 +21,7 @@
 
 
 void displayMenu() {
-    system("clear");
+    //system("clear");
     printf(ANSI_COLOR_CYAN "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
     printf("║ $$$$$$\\  $$$$$$\\  $$$$$$\\     $$$$$$$$\\                                        $$\\        $$$$$$\\                       $$\\                              ║\n");
     printf("║$$  __$$\\ \\_$$  _|$$  __$$\\    $$  _____|                                       $$ |      $$  __$$\\                      $$ |                             ║\n");
@@ -47,8 +45,10 @@ void displayMenu() {
     printf(ANSI_COLOR_RESET "Enter your choice: ");
 }
 
-int menu() {
+int menu(RULES *listRules) {
     int choice;
+    FAITS *listFacts = NULL;
+    char but[100];
     do {
         displayMenu();
         scanf("%d", &choice);
@@ -57,6 +57,9 @@ int menu() {
                 printf("Lecture de la base de règles\n");
                 sleep(1);
                 // Lecture de la base de règles
+                listRules= readRules();
+                printf("Base de règles :\n");
+                affiche_ListRules(listRules);
                 break;
             case 2:
                 printf("Saisie de règles\n");
@@ -67,21 +70,35 @@ int menu() {
                 printf("Saisie de faits\n");
                 sleep(1);
                 // Saisie de faits
+                listFacts = ask_symptoms(listRules, listFacts);
                 break;
             case 4:
                 printf("Enregistrement de la base de règles\n");
                 sleep(1);
                 //sauvegarde
                 break;
-            case 5:
+	    case 5:
                 printf("Chainage avant\n");
                 sleep(1);
                 //chainage avant
-                break;
+                FAITS *listFacts_copie = listFacts;
+                chainage_avant(listRules, listFacts_copie);
+                affiche_liste_faits(listFacts_copie);
+                break;	
             case 6:
                 printf("Chainage arrière\n");
                 sleep(1);
                 //chainage arrière
+                affiche_ListRules(listRules);
+                affiche_liste_faits(listFacts);
+                printf("Entrez le but à prouver: \n");
+                scanf("%s", but);
+                if(chainage_arriere(but, listRules, listFacts)) {
+                    printf("Le but est atteignable\n");
+                } else {
+                    printf("Le but n'est pas atteignable\n");
+                }
+                affiche_liste_faits(listFacts);
                 break;
             case 7:
                 printf("Quitter\n");
@@ -93,6 +110,7 @@ int menu() {
         }
         printf("\n");
     } while (choice != 7);
-
+    free_ListeFaits(listFacts);
+    free_RuleList(listRules);
     return 0;
 }
