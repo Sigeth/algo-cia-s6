@@ -1,7 +1,16 @@
 #include <stdio.h>
+#include "gfxmenu.h"
 
-int main() {
+// Largeur et hauteur par defaut d'une image correspondant a nos criteres
+#define LargeurFenetre 1024
+#define HauteurFenetre 720
 
-    printf("Hello, World!\n");
+int main(int argc, char **argv) {
+    initialiseGfx(argc, argv);
+
+    prepareFenetreGraphique("CIA_Expert_System", LargeurFenetre, HauteurFenetre);
+
+    lanceBoucleEvenements();
+
     return 0;
 }

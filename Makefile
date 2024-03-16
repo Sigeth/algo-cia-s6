@@ -1,5 +1,5 @@
-main: main.o chainage.o sauvegarde.o menu.o types.o
-	gcc -Wall main.o -o main chainage.o sauvegarde.o menu.o types.o
+main: main.o chainage.o sauvegarde.o gfxmenu.o menu.o types.o GFXLIB/libisentlib.a
+	gcc -Wall main.o -o main chainage.o sauvegarde.o gfxmenu.o menu.o types.o GFXLIB/libisentlib.a -lm -lglut -lGL -lX11
 
 main.o: main.c
 	gcc -Wall -c main.c
@@ -15,6 +15,9 @@ menu.o: menu.c
 
 types.o: types.c
 	gcc -Wall -c types.c types.h
+
+gfxmenu.o : gfxmenu.c GFXLIB/GfxLib.h GFXLIB/BmpLib.h GFXLIB/ESLib.h
+	gcc -Wall -c gfxmenu.c gfxmenu.h
 
 clear:
 	rm *.o
