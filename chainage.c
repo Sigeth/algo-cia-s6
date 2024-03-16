@@ -17,28 +17,25 @@
 //fonction pour ajouter, si vous en avez deja une mettez la a la place je vous en prie
 
 
-FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
-    printf("%s ajouté aux faits établis\n", fait);
-    FAITS *new_fait = malloc(sizeof(FAITS));
-    new_fait->faits = strdup(fait);
-    new_fait->suiv = NULL;
+void ajouter_fait_chainage(FAITS *base_de_faits, char *fait) {
 
-    if (base_de_faits == NULL) {
-        base_de_faits = new_fait;
+    // on va a la fin
+    while (base_de_faits->suiv != NULL) {
+        base_de_faits = base_de_faits->suiv;
     }
-    else {
-        FAITS *current = base_de_faits;
-        while (current->suiv != NULL) {
-            current = current->suiv;
-        }
-        current->suiv = new_fait;
-    }
-    affiche_liste_faits(base_de_faits);
-    return base_de_faits;
+    // on alloue
+    base_de_faits->suiv = malloc(sizeof(FAITS));
+
+    // on copie
+    base_de_faits->suiv->faits = strdup(fait);
+
+    // et on met un petit NULL pour marquer la fin
+    base_de_faits->suiv->suiv = NULL;
 }
 
 
-//fonction pour verifier si la regle est bien entiere, genre si 
+
+//fonction pour verifier si la regle est bien entiere, genre si
 // les conditions sont toutes réunies dans la base de faits
 
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
@@ -88,7 +85,7 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
         while (regle != NULL) {
             if (regle_applicable(regle, base_de_faits)) {
 
-                base_de_faits= ajouter_fait(base_de_faits, regle->conclusion);
+                ajouter_fait_chainage(base_de_faits, regle->conclusion);
 
                 regle_appliquee = true;
             }
@@ -145,6 +142,3 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
 
     return false;
 }
-
-
-

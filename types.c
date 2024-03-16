@@ -2,24 +2,24 @@
 #include "chainage.h"
 
 // CONDITIONS //
-               // init memory leakproof normalement
+// init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
-   *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
-   if(*C == NULL){
-       printf("Erreur d'allocation du noeud de conditions\n");
-       return 0;
-   }else {
-       (*C)->conditions = malloc((conditions_size + 1) * sizeof(char));
-       if ((*C)->conditions == NULL) {
-           printf("Erreur d'allocation des conditions\n");
-           free((*C)->conditions);
-           free(*C);
-           return 0;
-       }
-       strcpy((*C)->conditions, "Condition initial");
-       (*C)->suiv = NULL;
-       return 1;
-   }
+    *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
+    if(*C == NULL){
+        printf("Erreur d'allocation du noeud de conditions\n");
+        return 0;
+    }else {
+        (*C)->conditions = malloc((conditions_size + 1) * sizeof(char));
+        if ((*C)->conditions == NULL) {
+            printf("Erreur d'allocation des conditions\n");
+            free((*C)->conditions);
+            free(*C);
+            return 0;
+        }
+        strcpy((*C)->conditions, "Condition initial");
+        (*C)->suiv = NULL;
+        return 1;
+    }
 }
 
 int isConditionEmpty(CONDITIONS * C){
@@ -80,7 +80,7 @@ int affiche_ListeConditions(CONDITIONS * TC) {
     return count;
 }
 
-                // RULES //
+// RULES //
 
 int init_Rule(RULES ** R, int conclusion_size){
     *R = (RULES *)malloc(sizeof(RULES));
@@ -183,14 +183,14 @@ int affiche_ListRules(RULES * TR){
     if (TR == NULL) {
         return 0;
     }
-        printf("Regles :\n");
-        affiche_Rule(TR);
-        count++;
-        count += affiche_ListRules(TR->suiv);
+    printf("Regles :\n");
+    affiche_Rule(TR);
+    count++;
+    count += affiche_ListRules(TR->suiv);
     return count;
 }
 
-                        // FAITS //
+// FAITS //
 
 int init_Fait(FAITS ** F, int faits_size){
     *F = (FAITS *)malloc(sizeof(FAITS));
@@ -214,15 +214,15 @@ int init_Fait(FAITS ** F, int faits_size){
 int isFaitEmpty(FAITS * F) {
     return (F == NULL || !strlen(F->faits));
 }
-int isValinFaits(FAITS **TF, char * val){
-    if(*TF==NULL){
-        printf("Pas de valeur");
-        return 0;
+bool check_if_conclusion_in_faits(FAITS *base_de_faits, char *conclusion) {
+    FAITS *fait = base_de_faits;
+    while (fait != NULL) {
+        if (strcmp(fait->faits, conclusion) == 0) {
+            return true;
+        }
+        fait = fait->suiv;
     }
-    if(strcmp((*TF)->faits, val)){
-        return 1;
-    }
-    return isValinFaits(&(*TF)->suiv,val);
+    return false;
 }
 
 int ins_Fait(FAITS ** TF,FAITS * F){
@@ -253,7 +253,7 @@ void affiche_Fait(FAITS * F){
     if (F == NULL) {
         return;
     }else{
-    printf("%s\n", F->faits);
+        printf("%s\n", F->faits);
     }
 }
 
@@ -264,12 +264,38 @@ void affiche_liste_faits(FAITS *base_de_faits) {
     }
 }
 
+
+
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
+    printf("%s ajouté aux faits établis\n", fait);
+    FAITS *new_fait = malloc(sizeof(FAITS));
+    new_fait->faits = strdup(fait);
+    new_fait->suiv = NULL;
+
+    if (base_de_faits == NULL) {
+        base_de_faits = new_fait;
+    }
+    else {
+        FAITS *current = base_de_faits;
+        while (current->suiv != NULL) {
+            current = current->suiv;
+        }
+        current->suiv = new_fait;
+    }
+    affiche_liste_faits(base_de_faits);
+    return base_de_faits;
+}
+
+
+
+
+
 FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
     char symptom[100];
     printf("Entrer vos symptomes (appuyer sur 'q' pour quitter):\n");
     while (1) {
-        scanf("%s", symptom);
-        symptom[strcspn(symptom, "\n")] = 0;
+        fgets(symptom, sizeof(symptom), stdin);
+        symptom[strcspn(symptom, "\n")] = 0; // retire le retour chariot
         if (strcmp(symptom, "q") == 0) {
             break;
         }
@@ -311,3 +337,5 @@ FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
     }
     return base_de_faits;
 }
+
+
