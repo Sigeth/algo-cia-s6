@@ -1,6 +1,7 @@
 #include "types.h"
+#include "chainage.h"
 
-               // CONDITIONS //
+// CONDITIONS //
                // init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
    *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
@@ -256,15 +257,83 @@ void affiche_Fait(FAITS * F){
     }
 }
 
-int affiche_ListFaits(FAITS *TF){
-    int count = 0;
-    if (TF == NULL) {
-        return 0;
-    }else{
-        printf("Faits :\n");
-        affiche_Fait(TF);
-        count++;
-        count += affiche_ListFaits(TF->suiv);
-        return count;
+void affiche_liste_faits(FAITS *base_de_faits) {
+    while (base_de_faits != NULL) {
+        printf("%s\n", base_de_faits->faits);
+        base_de_faits = base_de_faits->suiv;
     }
+}
+
+
+
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
+    
+    FAITS *new_fait = malloc(sizeof(FAITS));
+    new_fait->faits = strdup(fait);
+    new_fait->suiv = NULL;
+
+    if (base_de_faits == NULL) {
+        base_de_faits = new_fait;
+    }
+    else {
+        FAITS *current = base_de_faits;
+        while (current->suiv != NULL) {
+            current = current->suiv;
+        }
+        current->suiv = new_fait;
+    }
+    
+    return base_de_faits;
+}
+
+
+
+
+
+FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
+    char symptom[100];
+    printf("Entrer vos symptomes (appuyer sur 'q' pour quitter):\n");
+    while (1) {
+        scanf("%s", symptom);
+        symptom[strcspn(symptom, "\n")] = 0;
+        if (strcmp(symptom, "q") == 0) {
+            break;
+        }
+        if (strlen(symptom) == 0) {
+            printf("Merci de renseigner un symptome, veuillez réessayer.\n");
+            continue;
+        }
+        FAITS* fait = base_de_faits;
+        int found_in_faits = 0;
+        while (fait != NULL) {
+            if (strstr(fait->faits, symptom) != NULL) {
+                printf("Symptome %s est deja dans la base_de_faits\n", symptom);
+                found_in_faits = 1;
+                break;
+            }
+            fait = fait->suiv;
+        }
+        if (found_in_faits) {
+            continue;
+        }
+        RULES* regle = base_de_regles;
+        int found_in_regles = 0;
+        while (regle != NULL && !found_in_regles) {
+            CONDITIONS* condition = regle->ptete_conditions;
+            while (condition != NULL) {
+                if (strstr(condition->conditions, symptom) != NULL) {
+                    base_de_faits = ajouter_fait(base_de_faits, symptom);
+                    printf("Ajout %s a la base_de_faits\n", symptom);
+                    found_in_regles = 1;
+                    break;
+                }
+                condition = condition->suiv;
+            }
+            regle = regle->suiv;
+        }
+        if (!found_in_regles) {
+            printf("Symptome pas dans la base_de_regles\n");
+        }
+    }
+    return base_de_faits;
 }
