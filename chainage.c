@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <ctype.h>
 
 #include "chainage.h"
 #include "types.h"
@@ -30,10 +30,24 @@ void ajouter_fait_chainage(FAITS *base_de_faits, char *fait) {
     base_de_faits->suiv->suiv = NULL;
 }
 
+char *trim(char *str) {
+    char *end;
 
+    // Trim leading space
+    while(isspace((unsigned char)*str)) str++;
 
-//fonction pour verifier si la regle est bien entiere, genre si 
-// les conditions sont toutes réunies dans la base de faits
+    if(*str == 0)  // All spaces?
+        return str;
+
+    // Trim trailing space
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    // Write new null terminator character
+    end[1] = '\0';
+
+    return str;
+}
 
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
@@ -57,16 +71,17 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
     printf(" -> %s\n", regle_copie.conclusion);
 
 */
-
     CONDITIONS *condition = regle->ptete_conditions;
-
-    //comme je l'ai dit ça check si conditions == faits
 
     while (condition != NULL) {
         bool trouve = false;
         FAITS *fait = base_de_faits;
         while (fait != NULL) {
-            if (strcmp(fait->faits, condition->conditions) == 0) {
+            // Trim leading and trailing whitespace from condition and fact
+            char *trimmed_condition = trim(condition->conditions);
+            char *trimmed_fact = trim(fait->faits);
+
+            if (strcmp(trimmed_fact, trimmed_condition) == 0) {
                 trouve = true;
                 break;
             }
@@ -88,34 +103,34 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
         }
         fait = fait->suiv;
     }
-   
-  //affichage de la demo
-  
-   printf("Règle utilisée : ");
-   
-   
-   
-   RULES *regle_copie = regle;
-   
-   
-   int compteur=0;
-   
-   while (regle_copie->ptete_conditions != NULL){
-   
-	   if (compteur==0){
-	   	printf("%s",regle_copie->ptete_conditions->conditions);}
-   
-	   else{
-	    printf(" + %s", regle_copie->ptete_conditions->conditions);}
-	    compteur++;
-	    regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
-	   }
-	    
-	    
-    printf(" -> %s\n\n", regle->conclusion);  
-    
+
+    //affichage de la demo
+
+    printf("Règle utilisée : ");
+
+
+
+    RULES *regle_copie = regle;
+
+
+    int compteur=0;
+
+    while (regle_copie->ptete_conditions != NULL){
+
+        if (compteur==0){
+            printf("%s",regle_copie->ptete_conditions->conditions);}
+
+        else{
+            printf(" + %s", regle_copie->ptete_conditions->conditions);}
+        compteur++;
+        regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
+    }
+
+
+    printf(" -> %s\n\n", regle->conclusion);
+
     //fin d'affichage
-    
+    printf("ça marche\n");
     return true;
 }
 

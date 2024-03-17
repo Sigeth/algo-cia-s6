@@ -75,6 +75,7 @@ int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
 
 void affiche_Fait(FAITS * F); //affiche fait
 
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait);
 
 FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts); // demande à l'utilisateur de saisir les faits
 

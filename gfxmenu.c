@@ -1,17 +1,23 @@
 #include <unistd.h>
 #include "gfxmenu.h"
+
 #define LargeurFenetre 800
 #define HauteurFenetre 600
 
 bool saisieActivefait = false;
 bool saisieActiveregle = false;
+
 char inputfait[25];
 char inputregle[25];
+char inputregledef[25];
 char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
 int etat=0;
+
+FAITS *listFacts = NULL;
+RULES *listRules = NULL;
 
 void Buttons(){
     //boutton ajoute regle
@@ -214,9 +220,9 @@ void gestionEvenement(EvenementGfx evenement)
 
                     case 'L':
                     case 'l':
-                        //fonction de lecture
                         strcpy(islecture,"Lecture en cours...");
-                        //faire en sorte de changer la valeur de islecture après une tempo
+                        listRules = readRules();
+                        strcpy(islecture,"Importee avec succees");
                         break;
 
                     case 'R':
@@ -263,11 +269,12 @@ void gestionEvenement(EvenementGfx evenement)
         case BoutonSouris:
             if (etatBoutonSouris() == GaucheAppuye)
             {
+                strcpy(issave,"");
                 //click sur bouton ajoute regle
                 if((abscisseSouris() >= largeurFenetre()/30 && abscisseSouris() <= largeurFenetre()/4.5)
                    && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
-                    //fonction ajoute regle
-                    //si succees
+
+
                     strcpy(regleetat,"Regle ajoutee");
                     strcpy(inputregle,"");
                     //si echec
@@ -284,13 +291,14 @@ void gestionEvenement(EvenementGfx evenement)
                 //click sur bouton ajoute fait
                 if((abscisseSouris() >= largeurFenetre()/1.8 && abscisseSouris() <= largeurFenetre()/1.35)
                    && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
-                    //fonction ajoute fait
-                    //si succees
+                    gfxask_symptoms(listRules,listFacts,inputfait);
+                    if(listFacts != NULL){
                     strcpy(faitetat,"Fait ajoutee");
                     strcpy(inputfait,"");
-                    //si echec
-                    //strcpy(faitetat,"Erreur d'ajout");
-                    //strcpy(inputfait,"");
+                    }else{
+                    strcpy(faitetat,"Erreur d'ajout");
+                    strcpy(inputfait,"");
+                    }
                 }
                 //click dans zone de texte saisiefait
                 if((abscisseSouris() >= largeurFenetre()/1.345 && abscisseSouris() <= largeurFenetre()/1.016)

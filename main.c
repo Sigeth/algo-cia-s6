@@ -9,9 +9,9 @@
 int main(int argc, char **argv) {
     int choix=0;
     RULES *listRules = NULL;
-    printf("- 1 Interface graphique.\n- 2 Terminale.\n -3 Quitter");
-    scanf("%d",&choix);
     do{
+        printf("- 1 Interface graphique.\n- 2 Terminale.\n- 3 Quitter\n");
+        scanf("%d",&choix);
         switch(choix){
             case 1:
                 initialiseGfx(argc, argv);
