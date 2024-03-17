@@ -76,3 +76,34 @@ RULES* readRules() {
     fclose(rulesFile);
     return listRules;
 }
+
+char* replaceChar(char* str, char find, char replace){
+    char* current_pos = strchr(str,find);
+    while (current_pos) {
+        *current_pos = replace;
+        current_pos = strchr(current_pos,find);
+    }
+    return str;
+}
+
+int saveRules(RULES* listRules) {
+    if (isRuleEmpty(listRules)) {
+        printf("Aucune règle à sauvegarder");
+        return 1;
+    }
+    FILE* fileRules = fopen("regles.kbs", "w");
+
+    RULES* currRule = listRules;
+    while (currRule != NULL) {
+        CONDITIONS* currCondition = currRule->ptete_conditions;
+        while(currCondition != NULL) {
+            char* formattedCondition = replaceChar(currCondition->conditions, ' ', '_');
+            fprintf(fileRules, "%s ", formattedCondition);
+            currCondition = currCondition->suiv;
+        }
+        char* formattedRule = replaceChar(currRule->conclusion, ' ', '_');
+        fprintf(fileRules, "-> %s;\n", formattedRule);
+        currRule = currRule->suiv;
+    }
+    return 0;
+}
