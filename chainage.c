@@ -130,7 +130,6 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
     printf(" -> %s\n\n", regle->conclusion);
 
     //fin d'affichage
-    printf("ça marche\n");
     return true;
 }
 
