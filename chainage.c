@@ -40,6 +40,27 @@ void ajouter_fait_chainage(FAITS *base_de_faits, char *fait) {
 
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
+
+/*
+
+    RULES regle_copie;
+    regle_copie.conclusion = strdup(regle->conclusion);
+    regle_copie.ptete_conditions = regle->ptete_conditions;
+
+    // Affichage de la règle
+    printf("Evaluation de la règle: ");
+    CONDITIONS *condition_copie = regle_copie.ptete_conditions; // Utiliser un autre nom pour éviter la redéfinition
+    while (condition_copie != NULL) {
+        printf("%s", condition_copie->conditions); // Utilisez le membre conditions de la structure CONDITIONS
+        if (condition_copie->suiv != NULL) {
+            printf(" + ");
+        }
+        condition_copie = condition_copie->suiv;
+    }
+    printf(" -> %s\n", regle_copie.conclusion);
+
+*/
+
     CONDITIONS *condition = regle->ptete_conditions;
 
     //comme je l'ai dit ça check si conditions == faits
@@ -70,6 +91,31 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
         }
         fait = fait->suiv;
     }
+   
+  
+   printf("Règle utilisée : ");
+   
+   
+   
+   RULES *regle_copie = regle;
+   
+   
+   int compteur=0;
+   
+   while (regle_copie->ptete_conditions != NULL){
+   
+	   if (compteur==0){
+	   	printf("%s",regle_copie->ptete_conditions->conditions);}
+   
+	   else{
+	    printf(" + %s", regle_copie->ptete_conditions->conditions);}
+	    compteur++;
+	    regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
+	   }
+	    
+	    
+    printf(" -> %s\n\n", regle->conclusion);  
+    
     return true;
 }
 
@@ -131,9 +177,11 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
                 // On a repéré notre conclusion, du coup il faut check si toute les hypothèses associées
                 // sont vérifiées a leur tour, pour ça qu'on utilise la recursivité ici
                 continuee = chainage_arriere(hypothese->conditions, base_de_regles, base_de_faits);
+                
                 hypothese = hypothese->suiv;
             }
             if (continuee) {
+            	
                 return true;
             }
         }
