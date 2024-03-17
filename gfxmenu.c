@@ -7,6 +7,8 @@ bool saisieActivefait = false;
 bool saisieActiveregle = false;
 char inputfait[25];
 char inputregle[25];
+char faitetat[25];
+char regleetat[25];
 char islecture[25];
 char issave[25];
 
@@ -32,6 +34,7 @@ void Buttons(){
     epaisseurDeTrait(2);
     afficheChaine("Ajouter regle",(float)largeurFenetre()/53.333f,(float)largeurFenetre()/15,(float)hauteurFenetre()/4);
     afficheChaine(inputregle,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/4.2f,(float)hauteurFenetre()/4);
+    afficheChaine(regleetat,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/15,(float)hauteurFenetre()/6);
 
     //bouton ajoute fait
     //ombre
@@ -54,6 +57,7 @@ void Buttons(){
     epaisseurDeTrait(2);
     afficheChaine("Ajouter fait",(float)largeurFenetre()/53.333f,(float)largeurFenetre()/1.72f,(float)hauteurFenetre()/4);
     afficheChaine(inputfait,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/1.33f,(float)hauteurFenetre()/4);
+    afficheChaine(faitetat,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/1.72f,(float)hauteurFenetre()/6);
 
     //bouton chainage avant
     //ombre
@@ -120,7 +124,8 @@ void gestionEvenement(EvenementGfx evenement)
             if (image != NULL) // Si l'image a pu etre lue
             {
                 // On affiche l'image
-                ecrisImage((largeurFenetre()-image->largeurImage)/2, (hauteurFenetre()+300-image->hauteurImage)/2, image->largeurImage, image->hauteurImage, image->donneesRGB);
+                ecrisImage((largeurFenetre()-image->largeurImage)/2, (hauteurFenetre()+300-image->hauteurImage)/2,
+                           image->largeurImage, image->hauteurImage, image->donneesRGB);
             }
             //affichage mini menu
             miniMenu();
@@ -151,12 +156,14 @@ void gestionEvenement(EvenementGfx evenement)
                     case 's':
                         //fonction de save
                         strcpy(issave,"Sauvegarde !");
+                        //faire en sorte de changer la valeur de issave après une tempo
                         break;
 
                     case 'L':
                     case 'l':
                         //fonction de lecture
                         strcpy(islecture,"Lecture en cours...");
+                        //faire en sorte de changer la valeur de islecture après une tempo
                         break;
 
                     case 'R':
@@ -203,39 +210,53 @@ void gestionEvenement(EvenementGfx evenement)
         case BoutonSouris:
             if (etatBoutonSouris() == GaucheAppuye)
             {
+                //click sur bouton ajoute regle
+                if((abscisseSouris() >= largeurFenetre()/30 && abscisseSouris() <= largeurFenetre()/4.5)
+                   && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
+                    //fonction ajoute regle
+                    //si succees
+                    strcpy(regleetat,"Regle ajoutee");
+                    //si echec
+                    //strcpy(regleetat,"Erreur d'ajout");
+                }
+                //click dans zone de texte saisieregle
                 if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
-                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                   && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
                     saisieActiveregle=true;
+                    strcpy(regleetat,"");
                 }else{
                     saisieActiveregle=false;
                 }
+                //click sur bouton ajoute fait
+                if((abscisseSouris() >= largeurFenetre()/1.8 && abscisseSouris() <= largeurFenetre()/1.35)
+                   && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
+                    //fonction ajoute fait
+                    //si succees
+                    strcpy(faitetat,"Fait ajoutee");
+                    //si echec
+                    //strcpy(faitetat,"Erreur d'ajout");
+                }
+                //click dans zone de texte saisiefait
                 if((abscisseSouris() >= largeurFenetre()/1.345 && abscisseSouris() <= largeurFenetre()/1.016)
                 && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
                     saisieActivefait=true;
+                    strcpy(faitetat,"");
                 }else{
                     saisieActivefait=false;
                 }
-                /*if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
-                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
-                    printf("Click");
-                    //a remplacer par la fonction
+                //click chainage avant
+                if((abscisseSouris() >= largeurFenetre()/5.5 && abscisseSouris() <= largeurFenetre()/2.2)
+                   && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/37)) {
+                    //fonction chainage avant
+                    //resultat dans nouvelle fenetre ?
                 }
-                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01) &&
-                (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
-                    printf("Click");
+                //click chainage arriere
+                if((abscisseSouris() >= largeurFenetre()/1.9 && abscisseSouris() <= largeurFenetre()/1.25)
+                   && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
+                    //fonction chainage arriere
+                    //resultat dans nouvelle fenetre ?
                 }
-                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
-                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
-                    printf("Click");
-                }
-                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
-                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
-                    printf("Click");
-                }
-                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
-                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
-                    printf("Click");
-                }*/
+
                 //printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             else if (etatBoutonSouris() == GaucheRelache)
