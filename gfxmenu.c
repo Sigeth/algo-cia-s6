@@ -15,6 +15,7 @@ char regleetat[25];
 char islecture[25];
 char issave[25];
 int etat=0;
+int check=0;
 
 FAITS *listFacts = NULL;
 RULES *listRules = NULL;
@@ -213,9 +214,12 @@ void gestionEvenement(EvenementGfx evenement)
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
-                        //fonction de save
-                        strcpy(issave,"Sauvegarde !");
-                        //faire en sorte de changer la valeur de issave après une tempo
+                        check = saveRules(listRules);
+                        if(check == 1){
+                            strcpy(issave,"Sauvegarde !");
+                        }else{
+                            strcpy(issave,"Erreur Sauvegarde :(");
+                        }
                         break;
 
                     case 'L':
@@ -291,9 +295,9 @@ void gestionEvenement(EvenementGfx evenement)
                 //click sur bouton ajoute fait
                 if((abscisseSouris() >= largeurFenetre()/1.8 && abscisseSouris() <= largeurFenetre()/1.35)
                    && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
-                    gfxask_symptoms(listRules,listFacts,inputfait);
+                    listFacts = gfxask_symptoms(listRules,listFacts,inputfait);
                     if(listFacts != NULL){
-                    strcpy(faitetat,"Fait ajoutee");
+                    strcpy(faitetat,"Faits ajoutees");
                     strcpy(inputfait,"");
                     }else{
                     strcpy(faitetat,"Erreur d'ajout");
