@@ -9,13 +9,11 @@ bool saisieActiveregle = false;
 
 char inputfait[25];
 char inputregle[25];
-char inputregledef[25];
 char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
 int etat=0;
-int check=0;
 
 FAITS *listFacts = NULL;
 RULES *listRules = NULL;
@@ -214,8 +212,7 @@ void gestionEvenement(EvenementGfx evenement)
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
-                        check = saveRules(listRules);
-                        if(check == 1){
+                        if(saveRules(listRules)){
                             strcpy(issave,"Sauvegarde !");
                         }else{
                             strcpy(issave,"Erreur Sauvegarde :(");
@@ -226,7 +223,11 @@ void gestionEvenement(EvenementGfx evenement)
                     case 'l':
                         strcpy(islecture,"Lecture en cours...");
                         listRules = readRules();
-                        strcpy(islecture,"Importee avec succees");
+                        if(listRules != NULL){
+                            strcpy(islecture,"Importee avec succees");
+                        }else{
+                            strcpy(islecture,"Echec d'import");
+                        }
                         break;
 
                     case 'R':
