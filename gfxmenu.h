@@ -12,6 +12,12 @@
 #include "GFXLIB/BmpLib.h"
 #include "GFXLIB/ESLib.h"
 
+typedef enum DISPLAYSTATE {
+    MAIN_MENU,
+    CHAINAGE_AVANT,
+    CHAINAGE_ARRIERE
+} DisplayState;
+
 void gestionEvenement(EvenementGfx evenement);
 void Buttons();
 void miniMenu();

@@ -13,7 +13,7 @@ char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
-int etat=0;
+int etat=MAIN_MENU;
 
 FAITS *listFacts = NULL;
 RULES *listRules = NULL;
@@ -127,7 +127,7 @@ void gestionEvenement(EvenementGfx evenement)
 
             effaceFenetre (255, 255, 255);
             switch(etat){
-                case 1:
+                case CHAINAGE_AVANT:
                 effaceFenetre (255, 255, 255);
                 couleurCourante(100,100,100);
                 rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
@@ -148,7 +148,7 @@ void gestionEvenement(EvenementGfx evenement)
                 couleurCourante(255,0,0);
                 afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
                     break;
-                case 2:
+                case CHAINAGE_ARRIERE:
                 effaceFenetre (255, 255, 255);
                 couleurCourante(100,100,100);
                 rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
@@ -317,19 +317,19 @@ void gestionEvenement(EvenementGfx evenement)
                 if((abscisseSouris() >= largeurFenetre()/5.5 && abscisseSouris() <= largeurFenetre()/2.2)
                    && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
                     //fonction chainage avant
-                    etat=1;
+                    etat=CHAINAGE_AVANT;
                     //resultat dans nouvelle fenetre ?
                 }
                 //click chainage arriere
                 if((abscisseSouris() >= largeurFenetre()/1.9 && abscisseSouris() <= largeurFenetre()/1.25)
                    && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
                     //fonction chainage arriere
-                    etat=2;
+                    etat=CHAINAGE_ARRIERE;
                     //resultat dans nouvelle fenetre ?
                 }
                 if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
                    && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
-                    etat=0;
+                    etat=MAIN_MENU;
                 }
                 //printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
