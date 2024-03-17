@@ -15,7 +15,8 @@
 typedef enum DISPLAYSTATE {
     MAIN_MENU,
     CHAINAGE_AVANT,
-    CHAINAGE_ARRIERE
+    CHAINAGE_ARRIERE,
+    AJOUT_CONDITIONS
 } DisplayState;
 
 void gestionEvenement(EvenementGfx evenement);
