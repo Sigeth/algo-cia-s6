@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
     int choix=0;
     RULES *listRules = NULL;
     do{
-        printf("- 1 Interface graphique.\n- 2 Terminale.\n- 3 Quitter\n");
+        printf("- 1 Interface graphique\n- 2 Terminal\n- 3 Quitter\n");
         scanf("%d",&choix);
         switch(choix){
             case 1:

@@ -14,6 +14,7 @@ char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
+char isreset[25];
 DisplayState etat=MAIN_MENU;
 
 FAITS *listFacts = NULL;
@@ -101,6 +102,7 @@ void miniMenu(){
     afficheChaine("Sauvegarde  : S",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.10f);
     afficheChaine(issave,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.10f);
     afficheChaine("Reset BDF  : R",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.15f);
+    afficheChaine(isreset,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.15f);
     afficheChaine("Plein ecran : F",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.20f);
     afficheChaine("Quitter     : Q",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.25f);
 }
@@ -262,7 +264,7 @@ void gestionEvenement(EvenementGfx evenement)
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
-                        if(saveRules(listRules)){
+                        if(!(saveRules(listRules))){
                             strcpy(issave,"Sauvegarde !");
                         }else{
                             strcpy(issave,"Erreur Sauvegarde :(");
@@ -282,7 +284,15 @@ void gestionEvenement(EvenementGfx evenement)
 
                     case 'R':
                     case 'r':
-                        //fonction de reset
+                        if( listFacts !=NULL){
+                            free_ListeFaits(listFacts);
+                            listFacts=NULL;
+                        }
+                        if(listFacts == NULL){
+                            strcpy(isreset,"BDF Reset avec succees");
+                        }else{
+                            strcpy(isreset,"Echec Reset");
+                        }
                         break;
 
                     case 'Q':
