@@ -92,6 +92,7 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
         fait = fait->suiv;
     }
    
+  //affichage de la demo
   
    printf("Règle utilisée : ");
    
@@ -115,6 +116,8 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 	    
 	    
     printf(" -> %s\n\n", regle->conclusion);  
+    
+    //fin d'affichage
     
     return true;
 }
@@ -171,6 +174,31 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     RULES *regle = base_de_regles;
     while (regle != NULL) {
         if (conclusion_est(regle, but)) {
+        
+        
+            
+            //affichage de la démonstration 
+            
+            RULES regle_copie;
+	    regle_copie.conclusion = strdup(regle->conclusion);
+	    regle_copie.ptete_conditions = regle->ptete_conditions;
+
+	    
+	    printf("Règle utilisée : ");
+	    CONDITIONS *condition_copie = regle_copie.ptete_conditions; 
+	    while (condition_copie != NULL) {
+		printf("%s", condition_copie->conditions); 
+		if (condition_copie->suiv != NULL) {
+		    printf(" + ");
+		}
+		condition_copie = condition_copie->suiv;
+	    }
+	    printf(" -> %s\n", regle_copie.conclusion);
+            
+            
+            //fin d'affichage
+            
+            
             CONDITIONS *hypothese = regle->ptete_conditions;
             bool continuee = true;
             while (hypothese != NULL && continuee) {
