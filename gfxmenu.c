@@ -13,7 +13,7 @@ char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
-int etat=MAIN_MENU;
+DisplayState etat=MAIN_MENU;
 
 FAITS *listFacts = NULL;
 RULES *listRules = NULL;
