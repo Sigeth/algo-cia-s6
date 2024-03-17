@@ -11,55 +11,87 @@ char islecture[25];
 char issave[25];
 
 void Buttons(){
+    //boutton ajoute regle
     //ombre
     couleurCourante(180, 180, 180);
-    rectangle(largeurFenetre()/33, hauteurFenetre()/3, largeurFenetre()/4.5, hauteurFenetre()/5.1);
-    rectangle(largeurFenetre()/1.8085, hauteurFenetre()/3, largeurFenetre()/1.35, hauteurFenetre()/5.1);
-
-    rectangle(largeurFenetre()/5.6, hauteurFenetre()/7, largeurFenetre()/2.2, hauteurFenetre()/21.3);
-    rectangle(largeurFenetre()/1.91, hauteurFenetre()/7, largeurFenetre()/1.25, hauteurFenetre()/21.3);
-
-    //boutons
+    rectangle((float)largeurFenetre()/33, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/4.5f, (float)(hauteurFenetre()/5.1));
+    //boutton
     couleurCourante(173, 216, 230);
-    //haut
-    rectangle(largeurFenetre()/30, hauteurFenetre()/3, largeurFenetre()/4.5, hauteurFenetre()/5);
+    rectangle((float)largeurFenetre()/30, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/4.5f, (float)hauteurFenetre()/5);
+    //zone texte
     couleurCourante(0, 0, 0);
-    rectangle(largeurFenetre()/4.5, hauteurFenetre()/3, largeurFenetre()/2, hauteurFenetre()/5.1);
+    rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/2, (float)hauteurFenetre()/5.1f);
     couleurCourante(255,255,255);
-    rectangle(largeurFenetre()/4.45, hauteurFenetre()/3.035, largeurFenetre()/2.01, hauteurFenetre()/4.98);
-
-    couleurCourante(173, 216, 230);
-    rectangle(largeurFenetre()/1.8, hauteurFenetre()/3, largeurFenetre()/1.35, hauteurFenetre()/5);
-    couleurCourante(0, 0, 0);
-    rectangle(largeurFenetre()/1.35, hauteurFenetre()/3, largeurFenetre()/1.0125, hauteurFenetre()/5.1);
-    couleurCourante(255,255,255);
-    rectangle(largeurFenetre()/1.345, hauteurFenetre()/3.035, largeurFenetre()/1.016, hauteurFenetre()/4.98);
-
-    //bas
-    couleurCourante(173, 216, 230);
-    rectangle(largeurFenetre()/5.5, hauteurFenetre()/7, largeurFenetre()/2.2, hauteurFenetre()/20);
-    rectangle(largeurFenetre()/1.9, hauteurFenetre()/7, largeurFenetre()/1.25, hauteurFenetre()/20);
-
+    rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
+              (float)largeurFenetre()/2.01f, (float)hauteurFenetre()/4.98f);
+    //Texte
     couleurCourante(40, 40, 40);
     epaisseurDeTrait(2);
+    afficheChaine("Ajouter regle",(float)largeurFenetre()/53.333f,(float)largeurFenetre()/15,(float)hauteurFenetre()/4);
+    afficheChaine(inputregle,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/4.2f,(float)hauteurFenetre()/4);
 
-    //Texte
-    afficheChaine("Ajouter regle",largeurFenetre()/53.333,largeurFenetre()/15,hauteurFenetre()/4);
-    afficheChaine(inputregle,largeurFenetre()/53.333,largeurFenetre()/4.2,hauteurFenetre()/4);
-    afficheChaine("Ajouter fait",largeurFenetre()/53.333,largeurFenetre()/1.72,hauteurFenetre()/4);
-    afficheChaine(inputfait,largeurFenetre()/53.333,largeurFenetre()/4.2,hauteurFenetre()/4);
-    afficheChaine("Chainage avant",largeurFenetre()/44.444,largeurFenetre()/5,hauteurFenetre()/12.5);
-    afficheChaine("Chainage arriere",largeurFenetre()/44.444,largeurFenetre()/1.85,hauteurFenetre()/12.5);
+    //bouton ajoute fait
+    //ombre
+    couleurCourante(180, 180, 180);
+    rectangle((float)largeurFenetre()/1.8085f, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/1.35f, (float)hauteurFenetre()/5.1f);
+    //boutton
+    couleurCourante(173, 216, 230);
+    rectangle((float)largeurFenetre()/1.8f, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/1.35f, (float)hauteurFenetre()/5);
+    //zone texte
+    couleurCourante(0, 0, 0);
+    rectangle((float)largeurFenetre()/1.35f, (float)hauteurFenetre()/3,
+              (float)largeurFenetre()/1.0125f, (float)hauteurFenetre()/5.1f);
+    couleurCourante(255,255,255);
+    rectangle((float)largeurFenetre()/1.345f, (float)hauteurFenetre()/3.035f,
+              (float)largeurFenetre()/1.016f, (float)hauteurFenetre()/4.98f);
+    //texte
+    couleurCourante(40, 40, 40);
+    epaisseurDeTrait(2);
+    afficheChaine("Ajouter fait",(float)largeurFenetre()/53.333f,(float)largeurFenetre()/1.72f,(float)hauteurFenetre()/4);
+    afficheChaine(inputfait,(float)largeurFenetre()/53.333f,(float)largeurFenetre()/1.33f,(float)hauteurFenetre()/4);
+
+    //bouton chainage avant
+    //ombre
+    couleurCourante(180,180,180);
+    rectangle((float)largeurFenetre()/5.6f, (float)hauteurFenetre()/7,
+              (float)largeurFenetre()/2.2f, (float)hauteurFenetre()/21.3f);
+    //boutton
+    couleurCourante(173, 216, 230);
+    rectangle((float)largeurFenetre()/5.5f, (float)hauteurFenetre()/7,
+              (float)largeurFenetre()/2.2f, (float)hauteurFenetre()/20);
+    //texte
+    couleurCourante(40, 40, 40);
+    epaisseurDeTrait(2);
+    afficheChaine("Chainage avant",(float)largeurFenetre()/44.444f,(float)largeurFenetre()/5,(float)hauteurFenetre()/12.5f);
+
+    //boutton chainage arriere
+    //ombre
+    couleurCourante(180,180,180);
+    rectangle((float)largeurFenetre()/1.91f, (float)hauteurFenetre()/7,
+              (float)largeurFenetre()/1.25f, (float)hauteurFenetre()/21.3f);
+    //boutton
+    couleurCourante(173, 216, 230);
+    rectangle((float)largeurFenetre()/1.9f, (float)hauteurFenetre()/7,
+              (float)largeurFenetre()/1.25f, (float)hauteurFenetre()/20);
+    //texte
+    couleurCourante(40, 40, 40);
+    epaisseurDeTrait(2);
+    afficheChaine("Chainage arriere",(float)largeurFenetre()/44.444f,(float)largeurFenetre()/1.85f,(float)hauteurFenetre()/12.5f);
 }
 
 void miniMenu(){
-    afficheChaine("Lecture BDR : L",largeurFenetre()/60,largeurFenetre()/35,hauteurFenetre()/1.05);
-    afficheChaine(islecture,largeurFenetre()/60,largeurFenetre()/5,hauteurFenetre()/1.05);
-    afficheChaine("Sauvegarde  : S",largeurFenetre()/60,largeurFenetre()/35,hauteurFenetre()/1.10);
-    afficheChaine(issave,largeurFenetre()/60,largeurFenetre()/5,hauteurFenetre()/1.05);
-    afficheChaine("Reset BDF   : R",largeurFenetre()/60,largeurFenetre()/35,hauteurFenetre()/1.15);
-    afficheChaine("Plein ecran : F",largeurFenetre()/60,largeurFenetre()/35,hauteurFenetre()/1.20);
-    afficheChaine("Quitter     : Q",largeurFenetre()/60,largeurFenetre()/35,hauteurFenetre()/1.25);
+    afficheChaine("Lecture BDR : L",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.05f);
+    afficheChaine(islecture,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.05f);
+    afficheChaine("Sauvegarde  : S",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.10f);
+    afficheChaine(issave,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.05f);
+    afficheChaine("Reset BDF   : R",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.15f);
+    afficheChaine("Plein ecran : F",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.20f);
+    afficheChaine("Quitter     : Q",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.25f);
 }
 
 void gestionEvenement(EvenementGfx evenement)
@@ -94,7 +126,6 @@ void gestionEvenement(EvenementGfx evenement)
             miniMenu();
             //affichage bouttons
             Buttons();
-            afficheChaine(inputfait,largeurFenetre()/53.333,largeurFenetre()/1.33,hauteurFenetre()/4);
             break;
 
         case Clavier:
@@ -115,7 +146,6 @@ void gestionEvenement(EvenementGfx evenement)
                 }
             }
             else {
-                // Si la saisie n'est pas active, gérer les autres touches spéciales
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
@@ -127,6 +157,11 @@ void gestionEvenement(EvenementGfx evenement)
                     case 'l':
                         //fonction de lecture
                         strcpy(islecture,"Lecture en cours...");
+                        break;
+
+                    case 'R':
+                    case 'r':
+                        //fonction de reset
                         break;
 
                     case 'Q':
@@ -144,18 +179,18 @@ void gestionEvenement(EvenementGfx evenement)
                             redimensionneFenetre(LargeurFenetre, HauteurFenetre);
                         break;
 
-                    case 'R':
-                    case 'r':
+                    case 'V':
+                    case 'v':
                         demandeTemporisation(20);
                         break;
 
-                    case 'T':
-                    case 't':
+                    case 'B':
+                    case 'b':
                         demandeTemporisation(100);
                         break;
 
-                    case 'U':
-                    case 'u':
+                    case 'N':
+                    case 'n':
                         demandeTemporisation(-1);
                         break;
                 }
@@ -165,25 +200,47 @@ void gestionEvenement(EvenementGfx evenement)
         case ClavierSpecial:
             printf("ASCII %d\n", toucheClavier());
             break;
-//rectangle(largeurFenetre()/1.345, hauteurFenetre()/3.035, largeurFenetre()/1.016, hauteurFenetre()/4.98);
         case BoutonSouris:
             if (etatBoutonSouris() == GaucheAppuye)
             {
-                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01) && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
                     saisieActiveregle=true;
                 }else{
                     saisieActiveregle=false;
                 }
-                if((abscisseSouris() >= largeurFenetre()/1.345 && abscisseSouris() <= largeurFenetre()/1.016) && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                if((abscisseSouris() >= largeurFenetre()/1.345 && abscisseSouris() <= largeurFenetre()/1.016)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
                     saisieActivefait=true;
                 }else{
                     saisieActivefait=false;
                 }
-                printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
+                /*if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                    printf("Click");
+                    //a remplacer par la fonction
+                }
+                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01) &&
+                (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                    printf("Click");
+                }
+                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                    printf("Click");
+                }
+                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                    printf("Click");
+                }
+                if((abscisseSouris() >= largeurFenetre()/4.45 && abscisseSouris() <= largeurFenetre()/2.01)
+                && (ordonneeSouris() >= hauteurFenetre()/4.98 && ordonneeSouris() <= hauteurFenetre()/3.035)) {
+                    printf("Click");
+                }*/
+                //printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             else if (etatBoutonSouris() == GaucheRelache)
             {
-                printf("Bouton gauche relache en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
+                //printf("Bouton gauche relache en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             break;
 
