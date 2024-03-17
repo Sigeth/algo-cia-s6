@@ -9,10 +9,12 @@ bool saisieActiveregle = false;
 
 char inputfait[25];
 char inputregle[25];
+char inputconditions[30];
 char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
+char isreset[25];
 DisplayState etat=MAIN_MENU;
 
 FAITS *listFacts = NULL;
@@ -100,6 +102,7 @@ void miniMenu(){
     afficheChaine("Sauvegarde  : S",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.10f);
     afficheChaine(issave,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.10f);
     afficheChaine("Reset BDF  : R",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.15f);
+    afficheChaine(isreset,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.15f);
     afficheChaine("Plein ecran : F",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.20f);
     afficheChaine("Quitter     : Q",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.25f);
 }
@@ -144,14 +147,6 @@ void gestionEvenement(EvenementGfx evenement)
                     couleurCourante(255,255,255);
                     rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
                               (float)largeurFenetre()/1.305f, (float)hauteurFenetre()/4.98f);
-                              
-                              
-                    couleurCourante(200,200,200);
-                    rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/5.1f,
-                              (float)largeurFenetre()/1.3f, (float)hauteurFenetre()/10.1f);
-                              
-                    couleurCourante(0,0,0);
-                    afficheChaine("Valider",(float)largeurFenetre()/50,(float)largeurFenetre()/2.2f,(float)hauteurFenetre()/7.5);
 
                     couleurCourante(255,0,0);
                     afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
@@ -172,42 +167,12 @@ void gestionEvenement(EvenementGfx evenement)
                     couleurCourante(255,255,255);
                     rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
                               (float)largeurFenetre()/1.305f, (float)hauteurFenetre()/4.98f);
-                              
-                    couleurCourante(200,200,200);
-                    rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/5.1f,
-                              (float)largeurFenetre()/1.3f, (float)hauteurFenetre()/10.1f);
-                              
-                    couleurCourante(0,0,0);
-                    afficheChaine("Valider",(float)largeurFenetre()/50,(float)largeurFenetre()/2.2f,(float)hauteurFenetre()/7.5);
 
                     couleurCourante(255,0,0);
                     afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
-                    break;
-                    
-                    
-                    case CHAINAGE_AVANT_PRINT:
-                    effaceFenetre (255, 255, 255);
-                    couleurCourante(100,100,100);
-                    rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
-                              (float)largeurFenetre()/1.1f,(float)hauteurFenetre()/1.1f);
-                    couleurCourante(255,255,255);
-                    afficheChaine("<-",(float)largeurFenetre()/60,(float)largeurFenetre()/1.09f,(float)hauteurFenetre()/1.085f);
+
 
                     break;
-                    
-                    
-                    case CHAINAGE_ARRIERE_PRINT:
-                    effaceFenetre (255, 255, 255);
-                    couleurCourante(100,100,100);
-                    rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
-                              (float)largeurFenetre()/1.1f,(float)hauteurFenetre()/1.1f);
-                    couleurCourante(255,255,255);
-                    afficheChaine("<-",(float)largeurFenetre()/60,(float)largeurFenetre()/1.09f,(float)hauteurFenetre()/1.085f);
-
-                    break;
-                    
-                    
-                    
                 case AJOUT_CONDITIONS:
                     effaceFenetre (255, 255, 255);
                     couleurCourante(100,100,100);
@@ -221,16 +186,26 @@ void gestionEvenement(EvenementGfx evenement)
                     char *chaineConclusion = malloc(sizeof(char) * lengthConclusion + 1);
                     snprintf(chaineConclusion, lengthConclusion + 1, "Conclusion : %s", inputregle);
                     float tailleConclusion = tailleChaine(chaineConclusion, (float)largeurFenetre()/50);
-                    afficheChaine(chaineConclusion,(float)largeurFenetre()/50,(float)largeurFenetre()/2.8f,(float)hauteurFenetre()/2);
+                    afficheChaine(chaineConclusion,(float)largeurFenetre()/50,(float)largeurFenetre()/2 - tailleConclusion/2,(float)hauteurFenetre() - (float)hauteurFenetre()/16);
 
-                    rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/3,
-                              (float)largeurFenetre()/1.3f, (float)hauteurFenetre()/5.1f);
+                    afficheChaine("Rentrez vos conditions. Chaque condition doit etre separee d'un espace. Pas d'accents. Remplacer vos espaces par des '_'", (float)largeurFenetre()/96, (float)largeurFenetre()/6, (float)hauteurFenetre() - (float)hauteurFenetre()/8);
+                    afficheChaine("Exemple : mal_de_gorge fievre nausees", (float)largeurFenetre()/96, (float)largeurFenetre()/2.5f, (float)hauteurFenetre() - (float)hauteurFenetre()/6);
+                    rectangle((float)largeurFenetre()/16.0f, (float)hauteurFenetre()/3,
+                              (float)largeurFenetre()/1.1f, (float)hauteurFenetre()/5.1f);
                     couleurCourante(255,255,255);
-                    rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
-                              (float)largeurFenetre()/1.305f, (float)hauteurFenetre()/4.98f);
+                    rectangle((float)largeurFenetre()/15.5f, (float)hauteurFenetre()/3.035f,
+                              (float)largeurFenetre()/1.105f, (float)hauteurFenetre()/4.98f);
 
-                    couleurCourante(255,0,0);
-                    afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
+                    couleurCourante(0,0,0);
+                    afficheChaine(inputconditions,(float)largeurFenetre()/24,(float)largeurFenetre()/14.5f,(float)hauteurFenetre()/4.5f);
+
+                    rectangle((float)largeurFenetre()/16.0f, (float)hauteurFenetre()/8,
+                              (float)largeurFenetre()/1.1f, (float)hauteurFenetre()/32);
+                    couleurCourante(255,255,255);
+                    rectangle((float)largeurFenetre()/15.5f, (float)hauteurFenetre()/8.25f,
+                              (float)largeurFenetre()/1.105f, (float)hauteurFenetre()/30);
+                    couleurCourante(0,0,0);
+                    afficheChaine("Ajouter la regle", (float)largeurFenetre()/32,(float)largeurFenetre()/3,(float)hauteurFenetre()/16);
 
                     free(chaineConclusion);
                     break;
@@ -273,12 +248,23 @@ void gestionEvenement(EvenementGfx evenement)
                 if(caractereClavier() == 8) {
                     inputregle[strlen(inputregle) - 1] = '\0';
                 }
+            } else if (etat == AJOUT_CONDITIONS) {
+                if (caractereClavier() >= 32 && caractereClavier() <= 126) {
+                    if(strlen(inputconditions)<29){
+                        char temp = caractereClavier();
+                        strncat(inputconditions, &temp, 1);
+                        printf("input conditions : %s\n", inputconditions);
+                    }
+                }
+                if(caractereClavier() == 8) {
+                    inputconditions[strlen(inputconditions) - 1] = '\0';
+                }
             }
             else {
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
-                        if(saveRules(listRules)){
+                        if(!(saveRules(listRules))){
                             strcpy(issave,"Sauvegarde !");
                         }else{
                             strcpy(issave,"Erreur Sauvegarde :(");
@@ -298,7 +284,15 @@ void gestionEvenement(EvenementGfx evenement)
 
                     case 'R':
                     case 'r':
-                        //fonction de reset
+                        if( listFacts !=NULL){
+                            free_ListeFaits(listFacts);
+                            listFacts=NULL;
+                        }
+                        if(listFacts == NULL){
+                            strcpy(isreset,"BDF Reset avec succees");
+                        }else{
+                            strcpy(isreset,"Echec Reset");
+                        }
                         break;
 
                     case 'Q':
@@ -400,56 +394,22 @@ void gestionEvenement(EvenementGfx evenement)
                            && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
                             etat=MAIN_MENU;
                         }
-                        
-                        
-                        if((abscisseSouris() >= largeurFenetre()/4.5 && abscisseSouris() <= largeurFenetre()/1.1)
-                           && (ordonneeSouris() >= hauteurFenetre()/10.1 && ordonneeSouris() <= hauteurFenetre()/5.1)) {
-                            etat=CHAINAGE_AVANT_PRINT;
-                        }
-                        
                         break;
                     case CHAINAGE_ARRIERE:
                         if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
                            && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
                             etat=MAIN_MENU;
                         }
-                        
-                        
-                        if((abscisseSouris() >= largeurFenetre()/4.5 && abscisseSouris() <= largeurFenetre()/1.1)
-                           && (ordonneeSouris() >= hauteurFenetre()/10.1 && ordonneeSouris() <= hauteurFenetre()/5.1)) {
-                            etat=CHAINAGE_ARRIERE_PRINT;
-                        }
-                        
                         break;
-                        
-                        
-                       case CHAINAGE_AVANT_PRINT:
-                        if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
-                           && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
-                            etat=MAIN_MENU;
-                        }
-                        
-                        
-                        break; 
-                        
-                        
-                        
-                        case CHAINAGE_ARRIERE_PRINT:
-                        if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
-                           && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
-                            etat=MAIN_MENU;
-                        }
-                        
-                        
-                        break; 
-                        
-                        
-                        
-                        
                     case AJOUT_CONDITIONS:
                         if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
                            && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
                             etat=MAIN_MENU;
+                        }
+                        if((abscisseSouris() >= largeurFenetre()/16 && abscisseSouris() <= largeurFenetre()/1.1)
+                           && (ordonneeSouris() >= hauteurFenetre()/32 && ordonneeSouris() <= hauteurFenetre()/8)) {
+                           // listRules= ajouter_rule(listRules,inputregle,inputconditions);
+                            printf("%s -> %s\n", inputregle, inputconditions);
                         }
                         break;
                 }
