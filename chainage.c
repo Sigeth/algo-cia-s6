@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 
+
 #include "chainage.h"
 #include "types.h"
 
@@ -48,6 +49,30 @@ char *trim(char *str) {
 
     return str;
 }
+
+
+char *trim(char *str) {
+    char *end;
+
+  
+    while(isspace((unsigned char)*str)) str++;
+
+    if(*str == 0)  // All spaces?
+        return str;
+
+    // Trim trailing space
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    // Write new null terminator character
+    end[1] = '\0';
+
+    return str;
+}
+
+//fonction pour verifier si la regle est bien entiere, genre si 
+// les conditions sont toutes réunies dans la base de faits
+
 
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
@@ -104,6 +129,7 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
         fait = fait->suiv;
     }
 
+
     //affichage de la demo
 
     printf("Règle utilisée : ");
@@ -129,9 +155,11 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
     printf(" -> %s\n\n", regle->conclusion);
 
+
     //fin d'affichage
     return true;
 }
+
 
 
 //fonction principale chainage avant
@@ -162,8 +190,12 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
 //pour vérifier si la conclusion est la meme que le but
 //si true on continue les verifs avec chacune des hypotheses   (POUR LE CHAINAGE ARRIERE)
 
+
 bool conclusion_est(RULES *regle, char *but) {
-    return strcmp(regle->conclusion, but) == 0;
+
+    char *trimmed_conclusion = trim(regle->conclusion);
+    char *trimmed_but = trim(but);
+    return strcmp(trimmed_conclusion, trimmed_but) == 0;
 }
 
 
@@ -171,7 +203,12 @@ bool conclusion_est(RULES *regle, char *but) {
 bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     // si le but est direct dans les faits on s'embete pas et on return direct true
     for (FAITS *parcours_fait = base_de_faits; parcours_fait != NULL; parcours_fait = parcours_fait->suiv) {
-        if (strcmp(parcours_fait->faits, but) == 0) {
+    
+    
+        char *trimmed_fait = trim(parcours_fait->faits);
+        char *trimmed_but = trim(but);
+        if (strcmp(trimmed_fait, trimmed_but) == 0) {
+
             return true;
         }
     }
