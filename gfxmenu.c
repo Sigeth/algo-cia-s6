@@ -92,7 +92,7 @@ void miniMenu(){
     afficheChaine("Lecture BDR : L",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.05f);
     afficheChaine(islecture,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.05f);
     afficheChaine("Sauvegarde  : S",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.10f);
-    afficheChaine(issave,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.05f);
+    afficheChaine(issave,(float)largeurFenetre()/60,(float)largeurFenetre()/5,(float)hauteurFenetre()/1.10f);
     afficheChaine("Reset BDF  : R",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.15f);
     afficheChaine("Plein ecran : F",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.20f);
     afficheChaine("Quitter     : Q",(float)largeurFenetre()/60,(float)largeurFenetre()/35,(float)hauteurFenetre()/1.25f);
@@ -134,6 +134,7 @@ void gestionEvenement(EvenementGfx evenement)
             break;
 
         case Clavier:
+            printf("%c : ASCII %d\n", caractereClavier(), caractereClavier());
             if(saisieActivefait){
                 if (caractereClavier() >= 32 && caractereClavier() <= 126) {
                     if(strlen(inputfait)<24){
@@ -141,13 +142,19 @@ void gestionEvenement(EvenementGfx evenement)
                     strncat(inputfait,&temp,1);
                     printf("input fait : %s\n",inputfait);}
                 }
+                if(caractereClavier() == 8) {
+                    inputfait[strlen(inputfait) - 1] = '\0';
+                }
             }else if(saisieActiveregle){
                 if (caractereClavier() >= 32 && caractereClavier() <= 126) {
                     if(strlen(inputregle)<24){
-                    char temp = caractereClavier();
-                    strncat(inputregle,&temp,1);
-                    printf("input regle : %s\n",inputregle);
+                        char temp = caractereClavier();
+                        strncat(inputregle, &temp, 1);
+                        printf("input regle : %s\n", inputregle);
                     }
+                }
+                if(caractereClavier() == 8) {
+                    inputregle[strlen(inputregle) - 1] = '\0';
                 }
             }
             else {
@@ -233,8 +240,10 @@ void gestionEvenement(EvenementGfx evenement)
                     //fonction ajoute fait
                     //si succees
                     strcpy(faitetat,"Fait ajoutee");
+                    strcpy(inputfait,"");
                     //si echec
                     //strcpy(faitetat,"Erreur d'ajout");
+                    //strcpy(inputfait,"");
                 }
                 //click dans zone de texte saisiefait
                 if((abscisseSouris() >= largeurFenetre()/1.345 && abscisseSouris() <= largeurFenetre()/1.016)
