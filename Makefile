@@ -16,8 +16,8 @@ menu.o: menu.c menu.h
 types.o: types.c types.h
 	gcc -Wall -c types.c
 
-gfxmenu.o : gfxmenu.c GFXLIB/GfxLib.h GFXLIB/BmpLib.h GFXLIB/ESLib.h
-	gcc -Wall -c gfxmenu.c gfxmenu.h
+gfxmenu.o : gfxmenu.c gfxmenu.h GFXLIB/GfxLib.h GFXLIB/BmpLib.h GFXLIB/ESLib.h
+	gcc -Wall -c gfxmenu.c
 
 clear:
 	rm *.o
