@@ -120,11 +120,11 @@ int menu(RULES *listRules) {
                 affiche_liste_faits(listFacts_copie);
                 if(check_if_conclusion_in_faits(listFacts_copie, but)) {
                     printf("\nLe but est atteignable\n");
-                } 
-                
+                }
+
                 else if(strcmp(but, "") == 0){
                 	printf("\nAucun but n'a été choisi\n");}
-         
+
                 else {
                     printf("\nLe but n'est pas atteignable\n");
                 }

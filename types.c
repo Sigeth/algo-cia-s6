@@ -49,6 +49,7 @@ int ins_Condition(CONDITIONS **TC, CONDITIONS *C){
     return ins_Condition(&((*TC)->suiv), C);
 }
 
+
 int free_ListeConditions(CONDITIONS * TC) {
     if (TC == NULL) {
         return 0;
@@ -127,6 +128,31 @@ int ins_Rule(RULES ** TR,RULES * R){
     }
     return ins_Rule(&((*TR)->suiv), R);
 }
+
+RULES * ajouter_rule(RULES *base_de_regles, char *conclusion,char  *conditions) {
+    //printf("%s ajouté aux faits établis\n", fait);
+    RULES *new_rules = malloc(sizeof(RULES));
+    strcpy(new_rules->conclusion,conclusion);
+    CONDITIONS *new_conditions = malloc(sizeof(CONDITIONS));
+    new_conditions->conditions=conditions;
+    new_conditions->suiv=NULL;
+    ins_Condition(&new_rules->ptete_conditions,new_conditions);
+    new_rules->suiv = NULL;
+
+    if (base_de_regles == NULL) {
+        base_de_regles = new_rules;
+    }
+    else {
+        RULES *current = base_de_regles;
+        while (current->suiv != NULL) {
+            current = current->suiv;
+        }
+        current->suiv = new_rules;
+    }
+    //affiche_liste_faits(base_de_faits);
+    return base_de_regles;
+}
+
 
 int ins_ConditionToRule(RULES *R,CONDITIONS *teteC){
     if (R == NULL) {

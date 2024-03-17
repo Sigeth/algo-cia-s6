@@ -9,9 +9,6 @@
 #include "chainage.h"
 #include "types.h"
 
-
-
-
 //PARTIE CHAINAGE AVANT
 
 
@@ -34,10 +31,24 @@ void ajouter_fait_chainage(FAITS *base_de_faits, char *fait) {
     base_de_faits->suiv->suiv = NULL;
 }
 
+char *trim(char *str) {
+    char *end;
 
+    // Trim leading space
+    while(isspace((unsigned char)*str)) str++;
 
-//fonction pour verifier si la regle est bien entiere, genre si 
-// les conditions sont toutes réunies dans la base de faits
+    if(*str == 0)  // All spaces?
+        return str;
+
+    // Trim trailing space
+    end = str + strlen(str) - 1;
+    while(end > str && isspace((unsigned char)*end)) end--;
+
+    // Write new null terminator character
+    end[1] = '\0';
+
+    return str;
+}
 
 
 char *trim(char *str) {
@@ -117,34 +128,35 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
         }
         fait = fait->suiv;
     }
-   
-  //affichage de la demo
-  
-   printf("Règle utilisée : ");
-   
-   
-    
-   RULES *regle_copie = regle;
-   
-   
-   int compteur=0;
-   
-   while (regle_copie->ptete_conditions != NULL){
-   
-	   if (compteur==0){
-	   	printf("%s",regle_copie->ptete_conditions->conditions);}
-   
-	   else{
-	    printf(" + %s", regle_copie->ptete_conditions->conditions);}
-	    compteur++;
-	    regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
-	   }
-	    
-	    
-    printf(" -> %s\n\n", regle->conclusion);  
-    
+
+
+    //affichage de la demo
+
+    printf("Règle utilisée : ");
+
+
+
+    RULES *regle_copie = regle;
+
+
+    int compteur=0;
+
+    while (regle_copie->ptete_conditions != NULL){
+
+        if (compteur==0){
+            printf("%s",regle_copie->ptete_conditions->conditions);}
+
+        else{
+            printf(" + %s", regle_copie->ptete_conditions->conditions);}
+        compteur++;
+        regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
+    }
+
+
+    printf(" -> %s\n\n", regle->conclusion);
+
+
     //fin d'affichage
-    
     return true;
 }
 
@@ -172,12 +184,7 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
 }
 
 
-
-
-
 //PARTIE CHAINAGE ARRIERE
-
-
 
 
 //pour vérifier si la conclusion est la meme que le but
@@ -210,9 +217,7 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     RULES *regle = base_de_regles;
     while (regle != NULL) {
         if (conclusion_est(regle, but)) {
-        
-        
-            
+
             //affichage de la démonstration 
             
             RULES regle_copie;
@@ -230,10 +235,8 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
 		condition_copie = condition_copie->suiv;
 	    }
 	    printf(" -> %s\n", regle_copie.conclusion);
-            
-            
+
             //fin d'affichage
-            
             
             CONDITIONS *hypothese = regle->ptete_conditions;
             bool continuee = true;
