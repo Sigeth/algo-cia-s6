@@ -6,6 +6,7 @@
 
 
 #include "chainage.h"
+#include "types.h"
 
 
 
@@ -16,7 +17,7 @@
 //fonction pour ajouter, si vous en avez deja une mettez la a la place je vous en prie
 
 
-void ajouter_fait(FAITS *base_de_faits, char *fait) {
+void ajouter_fait_chainage(FAITS *base_de_faits, char *fait) {
 
     // on va a la fin
     while (base_de_faits->suiv != NULL) {
@@ -26,7 +27,7 @@ void ajouter_fait(FAITS *base_de_faits, char *fait) {
     base_de_faits->suiv = malloc(sizeof(FAITS));
     
     // on copie
-    base_de_faits->suiv->fait = strdup(fait);
+    base_de_faits->suiv->faits = strdup(fait);
 
     // et on met un petit NULL pour marquer la fin
     base_de_faits->suiv->suiv = NULL;
@@ -39,15 +40,36 @@ void ajouter_fait(FAITS *base_de_faits, char *fait) {
 
 bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
+
+/*
+
+    RULES regle_copie;
+    regle_copie.conclusion = strdup(regle->conclusion);
+    regle_copie.ptete_conditions = regle->ptete_conditions;
+
+    // Affichage de la règle
+    printf("Evaluation de la règle: ");
+    CONDITIONS *condition_copie = regle_copie.ptete_conditions; // Utiliser un autre nom pour éviter la redéfinition
+    while (condition_copie != NULL) {
+        printf("%s", condition_copie->conditions); // Utilisez le membre conditions de la structure CONDITIONS
+        if (condition_copie->suiv != NULL) {
+            printf(" + ");
+        }
+        condition_copie = condition_copie->suiv;
+    }
+    printf(" -> %s\n", regle_copie.conclusion);
+
+*/
+
     CONDITIONS *condition = regle->ptete_conditions;
-    
+
     //comme je l'ai dit ça check si conditions == faits
 
     while (condition != NULL) {
         bool trouve = false;
         FAITS *fait = base_de_faits;
         while (fait != NULL) {
-            if (strcmp(fait->fait, condition->condition) == 0) {
+            if (strcmp(fait->faits, condition->conditions) == 0) {
                 trouve = true;
                 break;
             }
@@ -64,18 +86,47 @@ bool regle_applicable(RULES *regle, FAITS *base_de_faits) {
 
     FAITS *fait = base_de_faits;
     while (fait != NULL) {
-        if (strcmp(fait->fait, regle->conclusion) == 0) {
-            return false; 
+        if (strcmp(fait->faits, regle->conclusion) == 0) {
+            return false;
         }
         fait = fait->suiv;
     }
+   
+  //affichage de la demo
+  
+   printf("Règle utilisée : ");
+   
+   
+   
+   RULES *regle_copie = regle;
+   
+   
+   int compteur=0;
+   
+   while (regle_copie->ptete_conditions != NULL){
+   
+	   if (compteur==0){
+	   	printf("%s",regle_copie->ptete_conditions->conditions);}
+   
+	   else{
+	    printf(" + %s", regle_copie->ptete_conditions->conditions);}
+	    compteur++;
+	    regle_copie->ptete_conditions=regle_copie->ptete_conditions->suiv;
+	   }
+	    
+	    
+    printf(" -> %s\n\n", regle->conclusion);  
+    
+    //fin d'affichage
+    
     return true;
 }
 
 
 //fonction principale chainage avant
 
-void chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
+
+FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
     bool regle_appliquee = true;
     while (regle_appliquee) {
         regle_appliquee = false;
@@ -83,15 +134,15 @@ void chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
         while (regle != NULL) {
             if (regle_applicable(regle, base_de_faits)) {
 
-                ajouter_fait(base_de_faits, regle->conclusion);
+                ajouter_fait_chainage(base_de_faits, regle->conclusion);
 
                 regle_appliquee = true;
             }
             regle = regle->suiv;
         }
     }
+    return base_de_faits;
 }
-
 
 
 
@@ -114,32 +165,56 @@ bool conclusion_est(RULES *regle, char *but) {
 bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     // si le but est direct dans les faits on s'embete pas et on return direct true
     for (FAITS *parcours_fait = base_de_faits; parcours_fait != NULL; parcours_fait = parcours_fait->suiv) {
-        if (strcmp(parcours_fait->fait, but) == 0) {             
+        if (strcmp(parcours_fait->faits, but) == 0) {
             return true;
         }
     }
-    
+
     // sinon on recherche dans les règles
     RULES *regle = base_de_regles;
     while (regle != NULL) {
         if (conclusion_est(regle, but)) {
+        
+        
+            
+            //affichage de la démonstration 
+            
+            RULES regle_copie;
+	    regle_copie.conclusion = strdup(regle->conclusion);
+	    regle_copie.ptete_conditions = regle->ptete_conditions;
+
+	    
+	    printf("Règle utilisée : ");
+	    CONDITIONS *condition_copie = regle_copie.ptete_conditions; 
+	    while (condition_copie != NULL) {
+		printf("%s", condition_copie->conditions); 
+		if (condition_copie->suiv != NULL) {
+		    printf(" + ");
+		}
+		condition_copie = condition_copie->suiv;
+	    }
+	    printf(" -> %s\n", regle_copie.conclusion);
+            
+            
+            //fin d'affichage
+            
+            
             CONDITIONS *hypothese = regle->ptete_conditions;
             bool continuee = true;
             while (hypothese != NULL && continuee) {
                 // On a repéré notre conclusion, du coup il faut check si toute les hypothèses associées
                 // sont vérifiées a leur tour, pour ça qu'on utilise la recursivité ici
-                continuee = chainage_arriere(hypothese->condition, base_de_regles, base_de_faits);
+                continuee = chainage_arriere(hypothese->conditions, base_de_regles, base_de_faits);
+                
                 hypothese = hypothese->suiv;
             }
             if (continuee) {
+            	
                 return true;
             }
         }
         regle = regle->suiv;
     }
-    
+
     return false;
 }
-
-
-

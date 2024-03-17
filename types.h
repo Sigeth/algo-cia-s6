@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 //Conditions
 typedef struct conditions{
@@ -68,8 +69,6 @@ int init_Fait(FAITS ** F, int faits_size);// Retourne 1 ou 0
 
 int isFaitEmpty(FAITS * F);// Retourne 1 ou 0
 
-int isValinFaits(FAITS **TF, char * val);//retourne 1 ou 0
-
 int ins_Fait(FAITS ** TF,FAITS * F);// Insertion par ordre alphabétique des faits. Retourne 1 ou 0
 
 int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
@@ -77,4 +76,13 @@ int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
 void affiche_Fait(FAITS * F); //affiche fait
 
 int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
+
+FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts);
+
+RULES* ask_rules(RULES *listRules);
+
+//Prototype de affichage_liste_faits
+void affiche_liste_faits(FAITS *base_de_faits);
+
+bool check_if_conclusion_in_faits(FAITS *base_de_faits, char *conclusion);
 #endif

@@ -1,4 +1,4 @@
-eternuements nez_qui_coule toux -> rhume;
+mal_de_gorge eternuements nez_qui_coule toux -> rhume;
 fievre courbatures mal_de_tete toux fatigue -> grippe;
 fievre mal_de_gorge -> covid;
 essouflement transpiration nausees -> indigestion;
@@ -26,3 +26,4 @@ fievre mal_de_tete courbatures -> leptospirose;
 douleurs_abdominales diarrhees fievre -> listeriose;
 piqure_de_tique grande_plaque_rouge -> maladie_de_lyme;
 fievre fatigue trouble_du_sommeil -> maladie_du_sommeil;
+
