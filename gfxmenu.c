@@ -256,7 +256,7 @@ void gestionEvenement(EvenementGfx evenement)
                 }
                 //click chainage avant
                 if((abscisseSouris() >= largeurFenetre()/5.5 && abscisseSouris() <= largeurFenetre()/2.2)
-                   && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/37)) {
+                   && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
                     //fonction chainage avant
                     //resultat dans nouvelle fenetre ?
                 }
