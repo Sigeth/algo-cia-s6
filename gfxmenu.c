@@ -11,6 +11,7 @@ char faitetat[25];
 char regleetat[25];
 char islecture[25];
 char issave[25];
+int etat=0;
 
 void Buttons(){
     //boutton ajoute regle
@@ -120,17 +121,62 @@ void gestionEvenement(EvenementGfx evenement)
         case Affichage:
 
             effaceFenetre (255, 255, 255);
-            // affichage logo
-            if (image != NULL) // Si l'image a pu etre lue
-            {
-                // On affiche l'image
-                ecrisImage((largeurFenetre()-image->largeurImage)/2, (hauteurFenetre()+300-image->hauteurImage)/2,
-                           image->largeurImage, image->hauteurImage, image->donneesRGB);
+            switch(etat){
+                case 1:
+                effaceFenetre (255, 255, 255);
+                couleurCourante(100,100,100);
+                rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
+                          (float)largeurFenetre()/1.1f,(float)hauteurFenetre()/1.1f);
+                couleurCourante(255,255,255);
+                afficheChaine("<-",(float)largeurFenetre()/60,(float)largeurFenetre()/1.09f,(float)hauteurFenetre()/1.085f);
+
+                couleurCourante(0,0,0);
+                afficheChaine("Que voulez vous demontrer ?",(float)largeurFenetre()/50,(float)largeurFenetre()/2.8f,(float)hauteurFenetre()/2);
+
+
+                rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/3,
+                          (float)largeurFenetre()/1.3f, (float)hauteurFenetre()/5.1f);
+                couleurCourante(255,255,255);
+                rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
+                          (float)largeurFenetre()/1.305f, (float)hauteurFenetre()/4.98f);
+
+                couleurCourante(255,0,0);
+                afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
+                    break;
+                case 2:
+                effaceFenetre (255, 255, 255);
+                couleurCourante(100,100,100);
+                rectangle((float)largeurFenetre()/1.05f,(float)hauteurFenetre()/1.05f,
+                          (float)largeurFenetre()/1.1f,(float)hauteurFenetre()/1.1f);
+                couleurCourante(255,255,255);
+                afficheChaine("<-",(float)largeurFenetre()/60,(float)largeurFenetre()/1.09f,(float)hauteurFenetre()/1.085f);
+
+                couleurCourante(0,0,0);
+                afficheChaine("Quel est votre but ?",(float)largeurFenetre()/50,(float)largeurFenetre()/2.8f,(float)hauteurFenetre()/2);
+
+                rectangle((float)largeurFenetre()/4.5f, (float)hauteurFenetre()/3,
+                          (float)largeurFenetre()/1.3f, (float)hauteurFenetre()/5.1f);
+                couleurCourante(255,255,255);
+                rectangle((float)largeurFenetre()/4.45f, (float)hauteurFenetre()/3.035f,
+                          (float)largeurFenetre()/1.305f, (float)hauteurFenetre()/4.98f);
+
+                couleurCourante(255,0,0);
+                afficheChaine("INPUT ICI",(float)largeurFenetre()/10.333f,(float)largeurFenetre()/4,(float)hauteurFenetre()/5);
+                break;
+                default:
+                    // affichage logo
+                    if (image != NULL) // Si l'image a pu etre lue
+                    {
+                        // On affiche l'image
+                        ecrisImage((largeurFenetre()-image->largeurImage)/2, (hauteurFenetre()+300-image->hauteurImage)/2,
+                                   image->largeurImage, image->hauteurImage, image->donneesRGB);
+                    }
+                    //affichage mini menu
+                    miniMenu();
+                    //affichage bouttons
+                    Buttons();
+                    break;
             }
-            //affichage mini menu
-            miniMenu();
-            //affichage bouttons
-            Buttons();
             break;
 
         case Clavier:
@@ -258,15 +304,20 @@ void gestionEvenement(EvenementGfx evenement)
                 if((abscisseSouris() >= largeurFenetre()/5.5 && abscisseSouris() <= largeurFenetre()/2.2)
                    && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
                     //fonction chainage avant
+                    etat=1;
                     //resultat dans nouvelle fenetre ?
                 }
                 //click chainage arriere
                 if((abscisseSouris() >= largeurFenetre()/1.9 && abscisseSouris() <= largeurFenetre()/1.25)
                    && (ordonneeSouris() >= hauteurFenetre()/20 && ordonneeSouris() <= hauteurFenetre()/7)) {
                     //fonction chainage arriere
+                    etat=2;
                     //resultat dans nouvelle fenetre ?
                 }
-
+                if((abscisseSouris() >= largeurFenetre()/1.1 && abscisseSouris() <= largeurFenetre()/1.05)
+                   && (ordonneeSouris() >= hauteurFenetre()/1.1 && ordonneeSouris() <= hauteurFenetre()/1.05)) {
+                    etat=0;
+                }
                 //printf("Bouton gauche appuye en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             else if (etatBoutonSouris() == GaucheRelache)
@@ -274,7 +325,6 @@ void gestionEvenement(EvenementGfx evenement)
                 //printf("Bouton gauche relache en : (%d, %d)\n", abscisseSouris(), ordonneeSouris());
             }
             break;
-
         case Souris: // Si la souris est deplacee
             //servira au hover des boutons
             break;
