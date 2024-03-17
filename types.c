@@ -1,24 +1,25 @@
 #include "types.h"
+#include "chainage.h"
 
-               // CONDITIONS //
-               // init memory leakproof normalement
+// CONDITIONS //
+// init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
-   *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
-   if(*C == NULL){
-       printf("Erreur d'allocation du noeud de conditions\n");
-       return 0;
-   }else {
-       (*C)->conditions = malloc((conditions_size + 1) * sizeof(char));
-       if ((*C)->conditions == NULL) {
-           printf("Erreur d'allocation des conditions\n");
-           free((*C)->conditions);
-           free(*C);
-           return 0;
-       }
-       strcpy((*C)->conditions, "Condition initial");
-       (*C)->suiv = NULL;
-       return 1;
-   }
+    *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
+    if(*C == NULL){
+        printf("Erreur d'allocation du noeud de conditions\n");
+        return 0;
+    }else {
+        (*C)->conditions = malloc((conditions_size + 1) * sizeof(char));
+        if ((*C)->conditions == NULL) {
+            printf("Erreur d'allocation des conditions\n");
+            free((*C)->conditions);
+            free(*C);
+            return 0;
+        }
+        strcpy((*C)->conditions, "Condition initial");
+        (*C)->suiv = NULL;
+        return 1;
+    }
 }
 
 int isConditionEmpty(CONDITIONS * C){
@@ -79,7 +80,7 @@ int affiche_ListeConditions(CONDITIONS * TC) {
     return count;
 }
 
-                // RULES //
+// RULES //
 
 int init_Rule(RULES ** R, int conclusion_size){
     *R = (RULES *)malloc(sizeof(RULES));
@@ -182,14 +183,14 @@ int affiche_ListRules(RULES * TR){
     if (TR == NULL) {
         return 0;
     }
-        printf("Regles :\n");
-        affiche_Rule(TR);
-        count++;
-        count += affiche_ListRules(TR->suiv);
+    printf("Regles :\n");
+    affiche_Rule(TR);
+    count++;
+    count += affiche_ListRules(TR->suiv);
     return count;
 }
 
-                        // FAITS //
+// FAITS //
 
 int init_Fait(FAITS ** F, int faits_size){
     *F = (FAITS *)malloc(sizeof(FAITS));
@@ -213,15 +214,15 @@ int init_Fait(FAITS ** F, int faits_size){
 int isFaitEmpty(FAITS * F) {
     return (F == NULL || !strlen(F->faits));
 }
-int isValinFaits(FAITS **TF, char * val){
-    if(*TF==NULL){
-        printf("Pas de valeur");
-        return 0;
+bool check_if_conclusion_in_faits(FAITS *base_de_faits, char *conclusion) {
+    FAITS *fait = base_de_faits;
+    while (fait != NULL) {
+        if (strcmp(fait->faits, conclusion) == 0) {
+            return true;
+        }
+        fait = fait->suiv;
     }
-    if(strcmp((*TF)->faits, val)){
-        return 1;
-    }
-    return isValinFaits(&(*TF)->suiv,val);
+    return false;
 }
 
 int ins_Fait(FAITS ** TF,FAITS * F){
@@ -252,19 +253,139 @@ void affiche_Fait(FAITS * F){
     if (F == NULL) {
         return;
     }else{
-    printf("%s\n", F->faits);
+        printf("%s\n", F->faits);
     }
 }
 
-int affiche_ListFaits(FAITS *TF){
-    int count = 0;
-    if (TF == NULL) {
-        return 0;
-    }else{
-        printf("Faits :\n");
-        affiche_Fait(TF);
-        count++;
-        count += affiche_ListFaits(TF->suiv);
-        return count;
+void affiche_liste_faits(FAITS *base_de_faits) {
+    while (base_de_faits != NULL) {
+        printf("%s\n", base_de_faits->faits);
+        base_de_faits = base_de_faits->suiv;
     }
+}
+
+
+
+FAITS* ajouter_fait(FAITS *base_de_faits, char *fait) {
+    //printf("%s ajouté aux faits établis\n", fait);
+    FAITS *new_fait = malloc(sizeof(FAITS));
+    new_fait->faits = strdup(fait);
+    new_fait->suiv = NULL;
+
+    if (base_de_faits == NULL) {
+        base_de_faits = new_fait;
+    }
+    else {
+        FAITS *current = base_de_faits;
+        while (current->suiv != NULL) {
+            current = current->suiv;
+        }
+        current->suiv = new_fait;
+    }
+    //affiche_liste_faits(base_de_faits);
+    return base_de_faits;
+}
+
+
+
+
+
+FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
+    char symptom[100];
+    printf("Entrer vos symptomes (appuyer sur 'q' pour quitter):\n");
+    while (1) {
+        fgets(symptom, sizeof(symptom), stdin);
+        symptom[strcspn(symptom, "\n")] = 0; // retire le retour chariot
+        if (strcmp(symptom, "q") == 0) {
+            break;
+        }
+        if (strlen(symptom) == 0) {
+            printf("Merci de renseigner un symptome, veuillez réessayer.\n");
+            continue;
+        }
+        FAITS* fait = base_de_faits;
+        int found_in_faits = 0;
+        while (fait != NULL) {
+            if (strstr(fait->faits, symptom) != NULL) {
+                printf("Symptome %s est deja dans la base_de_faits\n", symptom);
+                found_in_faits = 1;
+                break;
+            }
+            fait = fait->suiv;
+        }
+        if (found_in_faits) {
+            continue;
+        }
+        RULES* regle = base_de_regles;
+        int found_in_regles = 0;
+        while (regle != NULL && !found_in_regles) {
+            CONDITIONS* condition = regle->ptete_conditions;
+            while (condition != NULL) {
+                if (strstr(condition->conditions, symptom) != NULL) {
+                    base_de_faits = ajouter_fait(base_de_faits, symptom);
+                    printf("Ajout %s a la base_de_faits\n", symptom);
+                    found_in_regles = 1;
+                    break;
+                }
+                condition = condition->suiv;
+            }
+            regle = regle->suiv;
+        }
+        if (!found_in_regles) {
+            printf("Symptome pas dans la base_de_regles\n");
+        }
+    }
+    return base_de_faits;
+}
+
+RULES* ask_rules(RULES* base_de_regles) {
+    char conclusion[100];
+    //vérfie si la règle n'est pas déjà dans la base de règles
+    printf("Entrer la conclusion de la règle:\n");
+    fgets(conclusion, sizeof(conclusion), stdin);
+    conclusion[strcspn(conclusion, "\n")] = 0; // retire le retour chariot
+    if (isValinRules(&base_de_regles, conclusion)) {
+        printf("La règle est déjà dans la base de règles\n");
+        return base_de_regles;
+    }
+
+
+    // Création d'une nouvelle règle
+    RULES* new_rule = malloc(sizeof(RULES));
+    new_rule->conclusion = strdup(conclusion);
+    new_rule->ptete_conditions = NULL;
+    new_rule->suiv = NULL;
+
+    // Demande les conditions
+    printf("Entrer les conditions (appuyer sur 'q' pour quitter):\n");
+    while (1) {
+        char condition[100];
+        fgets(condition, sizeof(condition), stdin);
+        condition[strcspn(condition, "\n")] = 0; // retire le retour chariot
+
+        if (strcmp(condition, "q") == 0) {
+            break;
+        }
+
+        // Create a new condition
+        CONDITIONS* new_condition = malloc(sizeof(CONDITIONS));
+        new_condition->conditions = strdup(condition);
+        new_condition->suiv = NULL;
+
+        // Add the condition to the rule
+        if (new_rule->ptete_conditions == NULL) {
+            new_rule->ptete_conditions = new_condition;
+        } else {
+            CONDITIONS* current = new_rule->ptete_conditions;
+            while (current->suiv != NULL) {
+                current = current->suiv;
+            }
+            current->suiv = new_condition;
+        }
+    }
+
+    // Ajoute la nouvelle règle à la base de règles
+    ins_Rule(&base_de_regles, new_rule);
+
+    return base_de_regles;
 }
