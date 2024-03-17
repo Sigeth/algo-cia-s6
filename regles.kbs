@@ -1,0 +1,44 @@
+perte_de_memoire -> alzheimer;
+fievre mal_de_gorge mal_de_tete -> angine_diphterique;
+comportements_repetitifs difficulte_integration_sociale interets_restreints -> autisme;
+secheresse_de_la_bouche troubles_digestifs vision_floue -> botulisme;
+atteintes_articulaires courbatures mal_de_tete -> chikungunya;
+douleurs_urinaires -> chlamydiose;
+diarrhees vomissements -> cholera;
+nez_qui_coule toux -> coqueluche;
+fievre mal_de_gorge -> covid;
+fievre mal_de_tete -> cryptococcose;
+fievre mal_de_tete nausees vomissements -> dengue;
+fatigue grippe -> ebola;
+diarrhees douleurs_abdominales -> escherichia_coli_enterohemorragiques;
+grippe -> fievre_jaune;
+fievre nausees -> gastro;
+courbatures fievre mal_de_tete -> grippe;
+essouflement nausees transpiration -> indigestion;
+confusion courbatures perte_appetit -> legionellose;
+amaigrissement anemie fievre -> leishmania_viscerale;
+lesions_ulcerees -> leishmaniose_cutanée;
+lesions_cutanees -> lepre;
+courbatures fievre mal_de_tete -> leptospirose;
+diarrhees douleurs_abdominales fievre -> listeriose;
+grande_plaque_rouge piqure_de_tique -> maladie_de_lyme;
+fatigue grippe trouble_du_sommeil -> maladie_du_sommeil;
+fievre lethargie mal_de_tete vomissements -> meningite;
+fievre toux troubles_digestifs -> mers-cov;
+inflammations_respirations troubles_respiratoires -> mucoviscidose;
+diarrhees grippe vomissements -> paludisme;
+ralentissements_des_gestes tremblements -> parkinson;
+fievre lethargie -> peste;
+grippe raideur_de_la_nuque -> poliomyelite;
+agitation anxiete difficulte_a_avaler -> rage;
+eternuements nez_qui_coule toux -> rhume;
+diarrhees gastro vomissements -> salmonelloses;
+diarrhees douleurs_abdominales vomissements -> shigellose;
+grippe -> sida;
+essoufflements fievre toux -> sras;
+autisme hyperactivite troubles_du_sommeil -> syndrome_de_sanfilippo;
+anorexie douleurs_abdominales grippe -> typhoide;
+lesions_cutanees -> ulcere_de_buruli;
+lesions_cutanees -> varicelle;
+eruptions_cutanees grippe -> variole_du_singe;
+eruptions_cutanees fatigue grippe -> zika;
