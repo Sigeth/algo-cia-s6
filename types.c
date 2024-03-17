@@ -108,10 +108,9 @@ int isRuleEmpty(RULES * R) {
 
 int isValinRules(RULES **TR, char * val){
     if(*TR==NULL){
-        printf("Pas de valeur");
         return 0;
     }
-    if(strcmp((*TR)->conclusion, val)){
+    if(strcmp((*TR)->conclusion, val) ==0){
         return 1;
     }
     return isValinRules(&(*TR)->suiv,val);
@@ -386,6 +385,5 @@ RULES* ask_rules(RULES* base_de_regles) {
 
     // Ajoute la nouvelle règle à la base de règles
     ins_Rule(&base_de_regles, new_rule);
-
     return base_de_regles;
 }
