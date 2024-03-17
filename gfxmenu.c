@@ -15,6 +15,7 @@ char regleetat[25];
 char islecture[25];
 char issave[25];
 int etat=0;
+int check=0;
 
 FAITS *listFacts = NULL;
 RULES *listRules = NULL;
@@ -213,9 +214,12 @@ void gestionEvenement(EvenementGfx evenement)
                 switch (caractereClavier()) {
                     case 'S':
                     case 's':
-                        //fonction de save
-                        strcpy(issave,"Sauvegarde !");
-                        //faire en sorte de changer la valeur de issave après une tempo
+                        check = saveRules(listRules);
+                        if(check == 1){
+                            strcpy(issave,"Sauvegarde !");
+                        }else{
+                            strcpy(issave,"Erreur Sauvegarde :(");
+                        }
                         break;
 
                     case 'L':
