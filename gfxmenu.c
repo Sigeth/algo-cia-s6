@@ -223,6 +223,7 @@ void gestionEvenement(EvenementGfx evenement)
                     //fonction ajoute regle
                     //si succees
                     strcpy(regleetat,"Regle ajoutee");
+                    strcpy(inputregle,"");
                     //si echec
                     //strcpy(regleetat,"Erreur d'ajout");
                 }
