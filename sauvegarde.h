@@ -9,5 +9,6 @@
 #include "types.h"
 
 RULES* readRules();
+int saveRules(RULES* listRules);
 
 #endif
