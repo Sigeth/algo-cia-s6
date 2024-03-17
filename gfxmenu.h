@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "GFXLIB/GfxLib.h"
 #include "GFXLIB/BmpLib.h"
 #include "GFXLIB/ESLib.h"
 
 void gestionEvenement(EvenementGfx evenement);
-void Button(int x, int y,int width,int height,char * buttontext);
+void Buttons();
+void miniMenu();
+void zoneTexte();
 
 #endif //ALGO_CIA_S6_GFXMENU_H
