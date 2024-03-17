@@ -338,3 +338,54 @@ FAITS* ask_symptoms(RULES* base_de_regles, FAITS* base_de_faits) {
     return base_de_faits;
 }
 
+RULES* ask_rules(RULES* base_de_regles) {
+    char conclusion[100];
+    //vérfie si la règle n'est pas déjà dans la base de règles
+    printf("Entrer la conclusion de la règle:\n");
+    fgets(conclusion, sizeof(conclusion), stdin);
+    conclusion[strcspn(conclusion, "\n")] = 0; // retire le retour chariot
+    if (isValinRules(&base_de_regles, conclusion)) {
+        printf("La règle est déjà dans la base de règles\n");
+        return base_de_regles;
+    }
+
+
+    // Création d'une nouvelle règle
+    RULES* new_rule = malloc(sizeof(RULES));
+    new_rule->conclusion = strdup(conclusion);
+    new_rule->ptete_conditions = NULL;
+    new_rule->suiv = NULL;
+
+    // Demande les conditions
+    printf("Entrer les conditions (appuyer sur 'q' pour quitter):\n");
+    while (1) {
+        char condition[100];
+        fgets(condition, sizeof(condition), stdin);
+        condition[strcspn(condition, "\n")] = 0; // retire le retour chariot
+
+        if (strcmp(condition, "q") == 0) {
+            break;
+        }
+
+        // Create a new condition
+        CONDITIONS* new_condition = malloc(sizeof(CONDITIONS));
+        new_condition->conditions = strdup(condition);
+        new_condition->suiv = NULL;
+
+        // Add the condition to the rule
+        if (new_rule->ptete_conditions == NULL) {
+            new_rule->ptete_conditions = new_condition;
+        } else {
+            CONDITIONS* current = new_rule->ptete_conditions;
+            while (current->suiv != NULL) {
+                current = current->suiv;
+            }
+            current->suiv = new_condition;
+        }
+    }
+
+    // Ajoute la nouvelle règle à la base de règles
+    ins_Rule(&base_de_regles, new_rule);
+
+    return base_de_regles;
+}

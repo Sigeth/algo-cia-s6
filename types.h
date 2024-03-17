@@ -79,6 +79,8 @@ int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de l
 
 FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts);
 
+RULES* ask_rules(RULES *listRules);
+
 //Prototype de affichage_liste_faits
 void affiche_liste_faits(FAITS *base_de_faits);
 
