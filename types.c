@@ -1,7 +1,7 @@
 #include "types.h"
 #include "chainage.h"
 
-// CONDITIONS //
+// CONDITIONS /
 // init memory leakproof normalement
 int init_Conditions(CONDITIONS ** C, int conditions_size){
     *C = (CONDITIONS *)malloc(sizeof(CONDITIONS));
