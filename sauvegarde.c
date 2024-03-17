@@ -105,5 +105,6 @@ int saveRules(RULES* listRules) {
         fprintf(fileRules, "-> %s;\n", formattedRule);
         currRule = currRule->suiv;
     }
+    fclose(fileRules);
     return 0;
 }
