@@ -26,6 +26,7 @@ le mode **terminal**, ainsi que le mode **Interface graphique**. Ce choix est ju
 
 Une fois que vous avez choisi, quels sont les fonctionnalités qui s'offrent à vous ?<br><br>
 
+PS : Le mode **Interface graphique** n'as pas pu être complètement finalisé, pour accéder à l'emsemble des fonctionnalités merci d'utiliser le mode **terminal**
 
 ### 1 - Lire la base de données de règles
 
