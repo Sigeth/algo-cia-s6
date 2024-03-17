@@ -183,8 +183,12 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
 //pour vérifier si la conclusion est la meme que le but
 //si true on continue les verifs avec chacune des hypotheses   (POUR LE CHAINAGE ARRIERE)
 
+
 bool conclusion_est(RULES *regle, char *but) {
-    return strcmp(regle->conclusion, but) == 0;
+
+    char *trimmed_conclusion = trim(regle->conclusion);
+    char *trimmed_but = trim(but);
+    return strcmp(trimmed_conclusion, trimmed_but) == 0;
 }
 
 
@@ -192,7 +196,12 @@ bool conclusion_est(RULES *regle, char *but) {
 bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     // si le but est direct dans les faits on s'embete pas et on return direct true
     for (FAITS *parcours_fait = base_de_faits; parcours_fait != NULL; parcours_fait = parcours_fait->suiv) {
-        if (strcmp(parcours_fait->faits, but) == 0) {
+    
+    
+        char *trimmed_fait = trim(parcours_fait->faits);
+        char *trimmed_but = trim(but);
+        if (strcmp(trimmed_fait, trimmed_but) == 0) {
+
             return true;
         }
     }
