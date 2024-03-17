@@ -75,14 +75,13 @@ int free_ListeFaits(FAITS *TF);// Retourne 1 ou 0
 
 void affiche_Fait(FAITS * F); //affiche fait
 
-int affiche_ListFaits(FAITS * TF); // Retourne le nombre de règles en plus de les afficher
 
-FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts);
+FAITS* ask_symptoms(RULES *listRules, FAITS *listFacts); // demande à l'utilisateur de saisir les faits
 
-RULES* ask_rules(RULES *listRules);
+RULES* ask_rules(RULES *listRules); // demande à l'utilisateur de saisir les règles
 
 //Prototype de affichage_liste_faits
-void affiche_liste_faits(FAITS *base_de_faits);
+int affiche_liste_faits(FAITS *base_de_faits); // affiche la liste des faits
 
 bool check_if_conclusion_in_faits(FAITS *base_de_faits, char *conclusion);
 #endif

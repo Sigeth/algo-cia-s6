@@ -65,7 +65,7 @@ void affiche_Condition(CONDITIONS * C) {
     if (C == NULL) {
         return;
     }
-    printf("%s\n", C->conditions);
+    printf("%s\n \n", C->conditions);
 }
 
 int affiche_ListeConditions(CONDITIONS * TC) {
@@ -182,7 +182,7 @@ int affiche_ListRules(RULES * TR){
     if (TR == NULL) {
         return 0;
     }
-    printf("Regles :\n");
+    printf("Regles :\n \n");
     affiche_Rule(TR);
     count++;
     count += affiche_ListRules(TR->suiv);
@@ -248,19 +248,15 @@ int free_ListeFaits(FAITS *TF) {
     return 1;
 }
 
-void affiche_Fait(FAITS * F){
-    if (F == NULL) {
-        return;
-    }else{
-        printf("%s\n", F->faits);
-    }
-}
 
-void affiche_liste_faits(FAITS *base_de_faits) {
+int affiche_liste_faits(FAITS *base_de_faits) {
+    int count = 0;
     while (base_de_faits != NULL) {
         printf("%s\n", base_de_faits->faits);
         base_de_faits = base_de_faits->suiv;
+        count++;
     }
+    return count;
 }
 
 

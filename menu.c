@@ -15,8 +15,10 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 #define ANSI_COLOR_WHITE   "\x1b[37m"
-#define ANSI_COLOR_BLACK   "\x1b[30m"
 #define ANSI_COLOR_BRIGHT_BLACK   "\x1b[90m"
+#define ANSI_COLOR_BRIGHT_RED     "\x1b[91m"
+#define ANSI_COLOR_BRIGHT_GREEN   "\x1b[92m"
+#define ANSI_COLOR_BRIGHT_YELLOW  "\x1b[93m"
 
 
 
@@ -38,16 +40,20 @@ void displayMenu() {
     printf("║" ANSI_COLOR_BRIGHT_BLACK " 1. " ANSI_COLOR_RESET "Lecture de la base de règles                                                                                                                          " ANSI_COLOR_CYAN "║\n");
     printf("║" ANSI_COLOR_YELLOW " 2. " ANSI_COLOR_RESET "Saisie de règles                                                                                                                                      " ANSI_COLOR_CYAN "║\n");
     printf("║" ANSI_COLOR_GREEN " 3. " ANSI_COLOR_RESET "Saisie de faits                                                                                                                                       " ANSI_COLOR_CYAN "║\n");
-    printf("║" ANSI_COLOR_GRAY " 4. " ANSI_COLOR_RESET "Enregistrement dans la base de règles                                                                                                                 " ANSI_COLOR_CYAN "║\n");
-    printf("║" ANSI_COLOR_MAGENTA " 5. " ANSI_COLOR_RESET "Chainage avant                                                                                                                                        " ANSI_COLOR_CYAN "║\n");
-    printf("║" ANSI_COLOR_BLUE " 6. " ANSI_COLOR_RESET "Chainage arrière                                                                                                                                      " ANSI_COLOR_CYAN "║\n");
-    printf("║" ANSI_COLOR_RED " 7. " ANSI_COLOR_RESET "Quitter                                                                                                                                               " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_BRIGHT_YELLOW " 4. " ANSI_COLOR_RESET "Affichage des règles                                                                                                                                  " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_BRIGHT_GREEN " 5. " ANSI_COLOR_RESET "Affichage des faits                                                                                                                                   " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_GRAY " 6. " ANSI_COLOR_RESET "Enregistrement dans la base de règles                                                                                                                 " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_MAGENTA " 7. " ANSI_COLOR_RESET "Chainage avant                                                                                                                                        " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_BLUE " 8. " ANSI_COLOR_RESET "Chainage arrière                                                                                                                                      " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_BRIGHT_RED " 9. " ANSI_COLOR_RESET "Reset base de faits                                                                                                                                   " ANSI_COLOR_CYAN "║\n");
+    printf("║" ANSI_COLOR_RED " 10. " ANSI_COLOR_RESET "Quitter                                                                                                                                              " ANSI_COLOR_CYAN "║\n");
     printf(ANSI_COLOR_CYAN "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝\n");
     printf(ANSI_COLOR_RESET "Enter your choice: ");
 }
 
 int menu(RULES *listRules) {
     int choice;
+    int cpt = 0;
     FAITS *listFacts = NULL;
     char but[100];
     do {
@@ -78,13 +84,30 @@ int menu(RULES *listRules) {
                 sleep(1);
                 break;
             case 4:
+                printf("Affichage des règles\n");
+                sleep(1);
+                // Affichage des règles
+                cpt = affiche_ListRules(listRules);
+                printf("Nombre de règles: %d\n", cpt);
+                sleep(10);
+                break;
+
+            case 5:
+                printf("Affichage des faits\n");
+                sleep(1);
+                // Affichage des faits
+                cpt = affiche_liste_faits(listFacts);
+                printf("Nombre de faits: %d\n", cpt);
+                sleep(2);
+                break;
+            case 6:
                 printf("Enregistrement dans la base de règles\n");
                 sleep(1);
                 // Enregistrement dans la base de règles
                 saveRules(listRules);
                 sleep(1);
                 break;
-            case 5:
+            case 7:
                 printf("Chainage avant\n");
                 sleep(1);
                 printf("Que voulez vous démontrer: (laissez vide pour fonctionnement par saturation)\n");
@@ -107,7 +130,7 @@ int menu(RULES *listRules) {
                 }
                 sleep(2);
                 break;
-            case 6:
+            case 8:
                 printf("Chainage arrière\n");
                 sleep(1);
                 //chainage arrière
@@ -122,7 +145,16 @@ int menu(RULES *listRules) {
                 sleep(2);
 
                 break;
-            case 7:
+            case 9:
+                printf("Reset base de faits\n");
+                sleep(1);
+                // Reset base de faits
+                if(listFacts != NULL) {
+                    free_ListeFaits(listFacts);
+                    listFacts = NULL;
+                }
+                break;
+            case 10:
                 printf("Au revoir\n");
                 sleep(1);
                 break;
@@ -131,7 +163,7 @@ int menu(RULES *listRules) {
                 sleep(1);
         }
         printf("\n");
-    } while (choice != 7);
+    } while (choice != 10);
 
     if (listRules != NULL) {
         free_RuleList(listRules);
