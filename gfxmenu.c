@@ -291,7 +291,7 @@ void gestionEvenement(EvenementGfx evenement)
                 //click sur bouton ajoute fait
                 if((abscisseSouris() >= largeurFenetre()/1.8 && abscisseSouris() <= largeurFenetre()/1.35)
                    && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
-                    gfxask_symptoms(listRules,listFacts,inputfait);
+                    listFacts = gfxask_symptoms(listRules,listFacts,inputfait);
                     if(listFacts != NULL){
                     strcpy(faitetat,"Fait ajoutee");
                     strcpy(inputfait,"");
