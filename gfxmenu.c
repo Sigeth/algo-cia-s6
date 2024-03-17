@@ -293,7 +293,7 @@ void gestionEvenement(EvenementGfx evenement)
                    && (ordonneeSouris() >= hauteurFenetre()/5 && ordonneeSouris() <= hauteurFenetre()/3)) {
                     listFacts = gfxask_symptoms(listRules,listFacts,inputfait);
                     if(listFacts != NULL){
-                    strcpy(faitetat,"Fait ajoutee");
+                    strcpy(faitetat,"Faits ajoutees");
                     strcpy(inputfait,"");
                     }else{
                     strcpy(faitetat,"Erreur d'ajout");
