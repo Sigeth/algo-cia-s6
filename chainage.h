@@ -9,7 +9,6 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits);
 bool regle_applicable(RULES *regle, FAITS *base_de_faits);
 void ajouter_fait_chainage(FAITS *base_de_faits, char *fait);
 
-
 //Prototypes des fonctions CHAINAGE ARRIERE
 
 bool conclusion_est(RULES *regle, char *but);

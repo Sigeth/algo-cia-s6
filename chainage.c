@@ -8,9 +8,6 @@
 #include "chainage.h"
 #include "types.h"
 
-
-
-
 //PARTIE CHAINAGE AVANT
 
 
@@ -145,12 +142,7 @@ FAITS* chainage_avant(RULES *base_de_regles, FAITS *base_de_faits) {
 }
 
 
-
-
-
 //PARTIE CHAINAGE ARRIERE
-
-
 
 
 //pour vérifier si la conclusion est la meme que le but
@@ -174,9 +166,7 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
     RULES *regle = base_de_regles;
     while (regle != NULL) {
         if (conclusion_est(regle, but)) {
-        
-        
-            
+
             //affichage de la démonstration 
             
             RULES regle_copie;
@@ -194,10 +184,8 @@ bool chainage_arriere(char *but, RULES *base_de_regles, FAITS *base_de_faits) {
 		condition_copie = condition_copie->suiv;
 	    }
 	    printf(" -> %s\n", regle_copie.conclusion);
-            
-            
+
             //fin d'affichage
-            
             
             CONDITIONS *hypothese = regle->ptete_conditions;
             bool continuee = true;
